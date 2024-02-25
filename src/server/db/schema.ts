@@ -3,7 +3,7 @@
 
 import { sql } from "drizzle-orm";
 import {
-  text,
+  boolean,
   bigint,
   index,
   mysqlTableCreator,
@@ -28,6 +28,8 @@ export const messages = createTable(
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     message: varchar("message", { length: 500 }).notNull(),
     userId: bigint("user_id", { mode: "number" }),
+    isGuest: boolean("is_guest").default(false),
+    guestSessionId: varchar("guest_session_id", { length: 36 }),
     aiCharacterId: bigint("ai_character_id", { mode: "number" }),
     chatId: bigint("chat_id", { mode: "number" }),
     createdAt: timestamp("created_at")
