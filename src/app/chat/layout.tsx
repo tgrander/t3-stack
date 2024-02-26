@@ -22,7 +22,17 @@ export default function ChatLayout({ children }: React.PropsWithChildren) {
         <div className="flex flex-1">
           <div className="w-full">
             {/* Messenger component */}
-            <Messenger />
+            <div className="flex h-full flex-col">
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto">
+                {/* Messages Server component */}
+              </div>
+
+              {/* TextArea Input */}
+              <div className="relative flex items-end p-4">
+                <Messenger />
+              </div>
+            </div>
           </div>
         </div>
 

@@ -3,7 +3,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { messages, chats } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
-import { MySqlQueryResult } from "drizzle-orm/mysql2";
 
 export const chatRouter = createTRPCRouter({
   // CREATE MESSAGE
@@ -45,7 +44,6 @@ export const chatRouter = createTRPCRouter({
     .input(
       z
         .object({
-          name: z.string().min(1),
           message: z.string().min(1),
           userId: z.number().optional(),
           guestSessionId: z.string().optional(),
@@ -67,7 +65,6 @@ export const chatRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.transaction(async (tx) => {
         const chat = await tx.insert(chats).values({
-          name: input.name,
           userId: input.userId,
         });
 
