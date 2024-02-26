@@ -45,7 +45,7 @@ export const messages = createTable(
   }),
 );
 
-// Relations
+// RELATIONS
 export const messagesRelations = relations(messages, ({ one }) => ({
   user: one(users, {
     fields: [messages.userId],
