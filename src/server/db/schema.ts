@@ -69,7 +69,7 @@ export const chats = createTable(
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     name: varchar("name", { length: 256 }),
-    userId: bigint("id", { mode: "number" }),
+    userId: bigint("user_id", { mode: "number" }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -121,7 +121,7 @@ export const aiCharacters = createTable(
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
     name: varchar("name", { length: 100 }).notNull(),
-    createdById: bigint("id", { mode: "number" }),
+    createdById: bigint("user_id", { mode: "number" }),
     personalityType: varchar("personality_type", { length: 50 }), // Example: "Humorous", "Philosophical"
     description: varchar("description", { length: 500 }),
     avatarImage: varchar("avatar_image", { length: 255 }),

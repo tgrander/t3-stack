@@ -7,24 +7,25 @@ import { Textarea } from "~/components/ui/textarea";
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { api } from "~/trpc/react";
 
-const guestSessionId = "'6a5ae9b1-5d6c-4932-9838-08e156a332ae'";
+const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
 
-export function Messenger() {
+export function SendMessage() {
   const router = useRouter();
   const [message, setMessage] = useState("");
 
-  const { mutate, isLoading, isIdle, isError, isSuccess } =
-    api.chat.createChatWithMessage.useMutation({
-      onSuccess: () => {
-        router.refresh();
-      },
-    });
+  const { mutate, isLoading } = api.chat.createChatWithMessage.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+  const createChat = () => mutate({ message, guestSessionId });
 
   return (
     <form
+      className="w-full"
       onSubmit={(e) => {
         e.preventDefault();
-        mutate({ message, guestSessionId });
+        createChat();
       }}
     >
       <Textarea
@@ -34,13 +35,19 @@ export function Messenger() {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
+          if (isLoading) return;
           if (e.key === "Enter") {
             e.preventDefault();
-            mutate({ message, guestSessionId });
+            createChat();
           }
         }}
       />
-      <Button size="sm" className="absolute bottom-7 right-7">
+      <Button
+        type="submit"
+        size="sm"
+        className="absolute bottom-7 right-7"
+        disabled={isLoading}
+      >
         <ArrowUpIcon className="h-4 w-4" />
       </Button>
     </form>
