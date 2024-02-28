@@ -71,7 +71,7 @@ export const createTRPCRouter = t.router;
  *
  * @see https://trpc.io/docs/v10/server/server-side-calls
  */
-export const createTRPCCaller = t.createCallerFactory;
+export const createTRPCCallerFactory = t.createCallerFactory;
 
 /**
  * Public (unauthenticated) procedure

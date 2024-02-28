@@ -1,1 +1,0 @@
-export { appCaller } from "./root";
