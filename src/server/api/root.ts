@@ -1,6 +1,6 @@
 import { postRouter } from "~/server/api/routers/post";
 import { chatRouter } from "~/server/api/routers/chat";
-import { createTRPCRouter } from "~/server/api/trpc";
+import { createTRPCRouter, createTRPCCaller } from "~/server/api/trpc";
 
 /**
  * This is the primary router for your server.
@@ -11,6 +11,13 @@ export const appRouter = createTRPCRouter({
   post: postRouter,
   chat: chatRouter,
 });
+
+/**
+ * This is how you call your tRPC procedures from the server.
+ *
+ * @see https://trpc.io/docs/v10/server/server-side-calls
+ */
+export const appCaller = createTRPCCaller(appRouter);
 
 // export type definition of API
 export type AppRouter = typeof appRouter;

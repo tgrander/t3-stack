@@ -67,6 +67,13 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 export const createTRPCRouter = t.router;
 
 /**
+ * This is how you call your procedure(s) directly from the same server they're hosted in.
+ *
+ * @see https://trpc.io/docs/v10/server/server-side-calls
+ */
+export const createTRPCCaller = t.createCallerFactory;
+
+/**
  * Public (unauthenticated) procedure
  *
  * This is the base piece you use to build new queries and mutations on your tRPC API. It does not
