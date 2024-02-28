@@ -1,1 +1,0 @@
-ALTER TABLE "t3-test-ai_character" ADD COLUMN "cloudinary_public_id" varchar(255);

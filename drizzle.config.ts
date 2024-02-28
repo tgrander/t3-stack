@@ -1,8 +1,8 @@
-import { type Config } from "drizzle-kit";
+import { type Config, defineConfig } from "drizzle-kit";
 
 import { env } from "~/env";
 
-export default {
+export default defineConfig({
   schema: "./src/server/db/schema.ts",
   out: "./src/drizzle",
   driver: "pg",
@@ -12,4 +12,4 @@ export default {
   verbose: true,
   strict: true,
   tablesFilter: ["t3-test_*"],
-} satisfies Config;
+}) satisfies Config;

@@ -1,1 +1,0 @@
-ALTER TABLE "t3-test-ai_character" ALTER COLUMN "persona_types" SET DATA TYPE personaTypes[];

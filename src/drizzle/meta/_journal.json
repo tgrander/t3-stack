@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1709141418341,
-      "tag": "0000_nifty_inertia",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1709142194483,
-      "tag": "0001_glorious_george_stacy",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1709143075239,
-      "tag": "0002_round_ultron",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1709144147711,
-      "tag": "0003_curly_mariko_yashida",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1709144685306,
-      "tag": "0004_nifty_tiger_shark",
+      "when": 1709146843021,
+      "tag": "0000_warm_yellowjacket",
       "breakpoints": true
     }
   ]

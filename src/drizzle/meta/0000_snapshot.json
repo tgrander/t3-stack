@@ -1,11 +1,11 @@
 {
-  "id": "178c0390-8b17-4ff4-b60b-ed8018f6d3bb",
+  "id": "2128a66a-ba88-46e5-8d95-39c6ab74852e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "t3-test-ai_character": {
-      "name": "t3-test-ai_character",
+    "t3-test_ai_character": {
+      "name": "t3-test_ai_character",
       "schema": "",
       "columns": {
         "id": {
@@ -26,11 +26,11 @@
           "primaryKey": false,
           "notNull": false
         },
-        "personality_type": {
-          "name": "personality_type",
-          "type": "varchar(50)",
+        "persona_type": {
+          "name": "persona_type",
+          "type": "json",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "description": {
           "name": "description",
@@ -40,6 +40,12 @@
         },
         "avatar_image": {
           "name": "avatar_image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloudinary_public_id": {
+          "name": "cloudinary_public_id",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
@@ -68,8 +74,7 @@
         "ai_idx": {
           "name": "ai_idx",
           "columns": [
-            "name",
-            "personality_type"
+            "id"
           ],
           "isUnique": false
         }
@@ -78,8 +83,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "t3-test-chat": {
-      "name": "t3-test-chat",
+    "t3-test_chat": {
+      "name": "t3-test_chat",
       "schema": "",
       "columns": {
         "id": {
@@ -133,8 +138,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "t3-test-message": {
-      "name": "t3-test-message",
+    "t3-test_message": {
+      "name": "t3-test_message",
       "schema": "",
       "columns": {
         "id": {
@@ -219,8 +224,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "t3-test-user": {
-      "name": "t3-test-user",
+    "t3-test_user": {
+      "name": "t3-test_user",
       "schema": "",
       "columns": {
         "id": {
@@ -243,6 +248,12 @@
         },
         "avatar_image": {
           "name": "avatar_image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloudinary_public_id": {
+          "name": "cloudinary_public_id",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
@@ -274,8 +285,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "t3-test-user_email_unique": {
-          "name": "t3-test-user_email_unique",
+        "t3-test_user_email_unique": {
+          "name": "t3-test_user_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"
@@ -285,6 +296,26 @@
     }
   },
   "enums": {
+    "personaType": {
+      "name": "personaType",
+      "values": {
+        "Inspirational Leader": "Inspirational Leader",
+        "Creative Genius": "Creative Genius",
+        "Comedic Relief": "Comedic Relief",
+        "Wise Mentor": "Wise Mentor",
+        "Rebel with a Cause": "Rebel with a Cause",
+        "Tragic Hero": "Tragic Hero",
+        "Adventurer": "Adventurer",
+        "Romantic": "Romantic",
+        "Intellectual": "Intellectual",
+        "Villain": "Villain",
+        "Survivor": "Survivor",
+        "Everyman": "Everyman",
+        "Mystic": "Mystic",
+        "Innovator": "Innovator",
+        "Diplomat": "Diplomat"
+      }
+    },
     "role": {
       "name": "role",
       "values": {
