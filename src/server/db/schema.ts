@@ -105,9 +105,10 @@ export const chatsRelations = relations(chats, ({ many, one }) => ({
 export const users = createTable(
   "user",
   {
-    id: serial("id").primaryKey(),
+    id: varchar("id", { length: 36 }),
     email: varchar("email", { length: 256 }).unique(),
-    name: varchar("name", { length: 256 }),
+    firstName: varchar("name", { length: 256 }),
+    lastName: varchar("name", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -115,7 +116,7 @@ export const users = createTable(
     updatedAt: timestamp("updated_at"),
   },
   (example) => ({
-    userIndex: index("user_idx").on(example.name, example.email),
+    userIndex: index("user_idx").on(example.id, example.email),
   }),
 );
 
@@ -133,7 +134,7 @@ export const aiCharacters = createTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
-    createdById: serial("user_id"),
+    createdById: varchar("user_id", { length: 36 }),
     personalityType: varchar("personality_type", { length: 50 }), // Example: "Humorous", "Philosophical"
     description: varchar("description", { length: 500 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
