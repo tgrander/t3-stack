@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { messageRoles } from "~/server/db/schema";
 
-const ChatCompletionMessageParamSchema = z.object({
-  role: z.enum(["user", "system", "assistant"]),
+export const ChatCompletionMessageParamSchema = z.object({
+  role: z.enum(messageRoles),
   content: z.string(),
 });
 
