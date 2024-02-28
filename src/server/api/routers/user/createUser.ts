@@ -2,15 +2,15 @@ import { z } from "zod";
 import { publicProcedure } from "~/server/api/trpc";
 import { users } from "~/server/db/schema";
 
+export const CreateUserInputSchema = z.object({
+  id: z.string(),
+  email: z.string().email().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+});
+
 export const createUser = publicProcedure
-  .input(
-    z.object({
-      id: z.string(),
-      email: z.string().email(),
-      firstName: z.string().optional(),
-      lastName: z.string().optional(),
-    }),
-  )
+  .input(CreateUserInputSchema)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.db
       .insert(users)
