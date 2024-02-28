@@ -1,4 +1,4 @@
-import { env } from "~/env";
+// import { env } from "~/env";
 import * as schema from "./schema";
 
 import { sql } from "@vercel/postgres";

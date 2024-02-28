@@ -3,7 +3,9 @@ import * as React from "react";
 import { cn } from "~/utils/styles/cn";
 
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  type?: "text" | "password" | "email" | "number" | "search" | "tel" | "url";
+}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {
