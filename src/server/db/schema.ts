@@ -24,7 +24,7 @@ export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 /************************************************************
  * MESSAGES
  ************************************************************/
-const roleEnum = pgEnum("role", [
+export const roleEnum = pgEnum("role", [
   "user",
   "assistant",
   "system",
