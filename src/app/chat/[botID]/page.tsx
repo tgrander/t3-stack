@@ -1,40 +1,71 @@
 // "use client";
 // import { useRouter } from "next/navigation";
 // import { useState } from "react";
-
-// import { Button } from "~/components/ui/button";
-// import { Textarea } from "~/components/ui/textarea";
-// import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 // import { api } from "~/trpc/react";
-
-// import { useCompletion } from 'ai/react';
 
 // const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
 
 "use client";
-
+import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { useChat } from "ai/react";
 
+import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
+
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat();
 
   return (
-    <div className="stretch mx-auto flex w-full max-w-md flex-col py-24">
-      {messages.map((m) => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === "user" ? "User: " : "AI: "}
-          {m.content}
-        </div>
-      ))}
+    <div className="flex flex-1">
+      <div className="w-full">
+        <div className="flex h-full flex-col p-6">
+          <h2 className=" mb-4 text-lg font-semibold">
+            Chat with Robin Williams
+          </h2>
+          <div className="flex-1 overflow-y-auto">
+            {messages.map((m) => (
+              <div key={m.id} className="whitespace-pre-wrap">
+                {m.role === "user" ? "User: " : "AI: "}
+                {m.content}
+              </div>
+            ))}
+          </div>
+          <div className="relative flex items-end p-4">
+            <form className="w-full" onSubmit={handleSubmit}>
+              <Textarea
+                className="form-textarea min-h-[60px] w-full resize-none overflow-hidden rounded-md border pb-2 pl-3 pr-16 pt-2 text-lg"
+                placeholder="Send a message to Debate King..."
+                rows={1}
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+                  const isEnterKey =
+                    e.key === "Enter" || e.key === "NumpadEnter";
 
-      <form onSubmit={handleSubmit}>
-        <input
-          className="fixed bottom-0 mb-8 w-full max-w-md rounded border border-gray-300 p-2 shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
-      </form>
+                  if (e.shiftKey && isEnterKey) {
+                    // Allow new line on Shift + Enter
+                    return;
+                  } else if (isEnterKey) {
+                    e.preventDefault();
+                    e.currentTarget.form?.requestSubmit();
+                  }
+                }}
+              />
+              <Button
+                type="submit"
+                size="sm"
+                className="absolute bottom-7 right-7"
+                disabled={isLoading}
+              >
+                <ArrowUpIcon className="h-4 w-4" />
+              </Button>
+              {/* Hidden input with type `submit` triggers submit on press Enter key */}
+              <input type="submit" className="hidden" />
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
