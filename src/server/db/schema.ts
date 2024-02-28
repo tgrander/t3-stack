@@ -3,14 +3,14 @@
 
 import { sql, relations } from "drizzle-orm";
 import {
-  boolean,
-  bigint,
   index,
-  mysqlTableCreator,
+  pgTableCreator,
+  serial,
   timestamp,
   varchar,
+  boolean,
   json,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -18,9 +18,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = mysqlTableCreator(
-  (name) => `t3-stack-app-router_${name}`,
-);
+export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 
 /************************************************************
  * MESSAGES
@@ -28,17 +26,17 @@ export const createTable = mysqlTableCreator(
 export const messages = createTable(
   "message",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    message: varchar("message", { length: 500 }).notNull(),
-    userId: bigint("user_id", { mode: "number" }),
+    id: serial("id").primaryKey(),
+    message: varchar("message", { length: 1000 }).notNull(),
+    userId: serial("user_id"),
     isGuest: boolean("is_guest").default(false),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
-    aiCharacterId: bigint("ai_character_id", { mode: "number" }),
-    chatId: bigint("chat_id", { mode: "number" }),
+    aiCharacterId: serial("ai_character_id"),
+    chatId: serial("chat_id"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
+    updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
     messageIndex: index("message_idx").on(example.message),
@@ -67,13 +65,13 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 export const chats = createTable(
   "chat",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
-    userId: bigint("user_id", { mode: "number" }),
+    userId: serial("user_id"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
+    updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
     chatIndex: index("chat_idx").on(example.name),
@@ -94,13 +92,13 @@ export const chatsRelations = relations(chats, ({ many, one }) => ({
 export const users = createTable(
   "user",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
+    updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
     userIndex: index("user_idx").on(example.name),
@@ -119,9 +117,9 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const aiCharacters = createTable(
   "ai_character",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    id: serial("id").primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
-    createdById: bigint("user_id", { mode: "number" }),
+    createdById: serial("user_id"),
     personalityType: varchar("personality_type", { length: 50 }), // Example: "Humorous", "Philosophical"
     description: varchar("description", { length: 500 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
@@ -129,7 +127,7 @@ export const aiCharacters = createTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
+    updatedAt: timestamp("updatedAt"),
   },
   (example) => ({
     aiIndex: index("ai_idx").on(example.name, example.personalityType), // For faster lookups
@@ -146,23 +144,5 @@ export const aiCharactersRelations = relations(
       fields: [aiCharacters.createdById],
       references: [users.id],
     }),
-  }),
-);
-
-/************************************************************
- * DELETE ME
- ************************************************************/
-export const posts = createTable(
-  "post",
-  {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt").onUpdateNow(),
-  },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
   }),
 );

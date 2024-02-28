@@ -15,6 +15,9 @@ export const env = createEnv({
         "You forgot to change the default URL",
       ),
     OPENAI_API_KEY: z.string({ required_error: "OPENAI_API_KEY is required" }),
+    PROJECT_NAME: z.string({
+      required_error: "PROJECT_NAME is required when using neon postgres DB",
+    }),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -35,6 +38,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    PROJECT_NAME: process.env.PROJECT_NAME,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     NODE_ENV: process.env.NODE_ENV,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
