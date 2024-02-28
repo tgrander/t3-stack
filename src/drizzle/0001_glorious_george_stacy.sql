@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test-user" ADD COLUMN "cloudinary_public_id" varchar(255);

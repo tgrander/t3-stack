@@ -110,6 +110,7 @@ export const users = createTable(
     firstName: varchar("name", { length: 256 }),
     lastName: varchar("name", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
+    cloudinaryPublicId: varchar("cloudinary_public_id", { length: 255 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -129,15 +130,36 @@ export const usersRelations = relations(users, ({ many }) => ({
 /************************************************************
  * AI CHARACTERS
  ************************************************************/
+const personaTypes = [
+  "Inspirational Leader",
+  "Creative Genius",
+  "Comedic Relief",
+  "Wise Mentor",
+  "Rebel with a Cause",
+  "Tragic Hero",
+  "Adventurer",
+  "Romantic",
+  "Intellectual",
+  "Villain",
+  "Survivor",
+  "Everyman",
+  "Mystic",
+  "Innovator",
+  "Diplomat",
+] as const;
+export type PersonaType = (typeof personaTypes)[number];
+export const personaTypeEnum = pgEnum("personaTypes", personaTypes);
+
 export const aiCharacters = createTable(
   "ai_character",
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
     createdById: varchar("user_id", { length: 36 }),
-    personalityType: varchar("personality_type", { length: 50 }), // Example: "Humorous", "Philosophical"
+    personaType: personaTypeEnum("persona_types").array().notNull(),
     description: varchar("description", { length: 500 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
+    cloudinaryPublicId: varchar("cloudinary_public_id", { length: 255 }),
     configurationData: json("configuration_data"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -145,7 +167,7 @@ export const aiCharacters = createTable(
     updatedAt: timestamp("updated_at"),
   },
   (example) => ({
-    aiIndex: index("ai_idx").on(example.name, example.personalityType), // For faster lookups
+    aiIndex: index("ai_idx").on(example.id, example.personaType), // For faster lookups
   }),
 );
 
