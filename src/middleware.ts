@@ -25,10 +25,15 @@ export default authMiddleware({
       // return NextResponse.redirect(orgSelection);
       return NextResponse.next();
     }
-    // Set guest session id cookie for users who are not logged in
     if (!auth.userId) {
+      // Set guest session id cookie for users who are not logged in
       const response = NextResponse.next();
       response.cookies.set(guestSessionId, uuid());
+      return response;
+    } else if (!!auth.userId) {
+      // Remove guest session id cookie is logged in
+      const response = NextResponse.next();
+      response.cookies.delete(guestSessionId);
       return response;
     }
     // If the user is logged in and trying to access a protected route, allow them to access route
