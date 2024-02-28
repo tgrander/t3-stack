@@ -7,13 +7,10 @@ export default function ChatLayout({ children }: React.PropsWithChildren) {
   return (
     <div className="flex min-h-screen">
       {/* Static Desktop Sidebar */}
-      <div className="hidden bg-gray-300/40 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
+      <div className={cn("hidden bg-gray-300/40 md:fixed md:inset-y-0 md:z-50 md:flex md:w-64 md:flex-col", bgGradient)}>
         {/* Sidebar content */}
       </div>
       <div className="flex flex-1 lg:pl-64">
-        <div className={cn("hidden lg:flex lg:w-72 lg:flex-col", bgGradient)}>
-          {/* Chat history content */}
-        </div>
         {/* <SendMessage /> */}
         {/* Conversation Details */}
         {children}
