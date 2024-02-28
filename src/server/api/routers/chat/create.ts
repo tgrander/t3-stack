@@ -2,7 +2,7 @@ import { z } from "zod";
 import { publicProcedure } from "~/server/api/trpc";
 import { messages, chats, messageRoles } from "~/server/db/schema";
 
-export const createChatWithMessage = publicProcedure
+export const create = publicProcedure
   .input(
     z
       .object({

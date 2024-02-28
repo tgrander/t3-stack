@@ -1,6 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { createChatWithMessage } from "./createChatWithMessage";
+import { create } from "./create";
 
 export const chatRouter = createTRPCRouter({
-  createChatWithMessage,
+  create,
 });
