@@ -6,7 +6,7 @@ import { guestSessionId } from "~/constants/cookies";
 
 export default authMiddleware({
   // Routes that can be accessed while signed out
-  publicRoutes: ["/", "/chat"],
+  publicRoutes: ["/", "/chat", "/api/webhooks(.*)"],
   // Routes that can always be accessed, and have
   // no authentication information
   ignoredRoutes: ["/no-auth-in-this-route"],
