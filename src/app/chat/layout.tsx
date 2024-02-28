@@ -14,9 +14,8 @@ export default function ChatLayout({ children }: React.PropsWithChildren) {
       >
         {/* Sidebar content */}
       </div>
-      <div className="flex flex-1 lg:pl-64">
-        {/* <SendMessage /> */}
-        {/* Conversation Details */}
+      <div className="flex flex-1 md:pl-64">
+        {/* Messenger */}
         {children}
       </div>
     </div>
