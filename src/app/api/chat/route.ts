@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+import { appCaller } from "~/server/api";
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -20,7 +21,13 @@ export async function POST(req: Request) {
   });
 
   // Convert the response into a friendly text-stream
-  const stream = OpenAIStream(response);
+  const stream = OpenAIStream(response, {
+    onStart: () => {
+      /**
+       * @TODO Send a message to the user that the AI is typing
+       */
+    },
+  });
   // Respond with the stream
   return new StreamingTextResponse(stream);
 }
