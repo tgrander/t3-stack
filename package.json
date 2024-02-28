@@ -12,6 +12,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.8",
     "@heroicons/react": "^2.1.1",
     "@neondatabase/serverless": "^0.9.0",
     "@planetscale/database": "^1.16.0",
