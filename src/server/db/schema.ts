@@ -21,6 +21,8 @@ import {
  */
 export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 
+const userIdType = varchar("id", { length: 36 });
+
 /************************************************************
  * MESSAGES
  ************************************************************/
@@ -38,7 +40,7 @@ export const messages = createTable(
   {
     id: serial("id").primaryKey(),
     message: varchar("message", { length: 1000 }).notNull(),
-    userId: serial("user_id"),
+    userId: userIdType,
     isGuest: boolean("is_guest").default(false),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
     aiCharacterId: serial("ai_character_id"),
@@ -79,7 +81,7 @@ export const chats = createTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
-    userId: serial("user_id"),
+    userId: userIdType,
     guestSessionId: varchar("guest_session_id", { length: 36 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)

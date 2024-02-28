@@ -1,13 +1,16 @@
 import { z } from "zod";
 import { publicProcedure } from "~/server/api/trpc";
-import { messages, chats } from "~/server/db/schema";
+import { messages, chats, messageRoles } from "~/server/db/schema";
 
 export const createChatWithMessage = publicProcedure
   .input(
     z
       .object({
-        message: z.string().min(1),
-        userId: z.number().optional(),
+        message: z.object({
+          content: z.string().min(1),
+          role: z.enum(messageRoles),
+        }),
+        userId: z.string().optional(),
         guestSessionId: z.string().length(36).optional(),
       })
       .refine(
@@ -31,13 +34,14 @@ export const createChatWithMessage = publicProcedure
         .insert(chats)
         .values({
           userId: input.userId,
-          guestSessionId: input.userId ? null : input.guestSessionId,
+          guestSessionId: input.userId ? undefined : input.guestSessionId,
         })
         .returning({ insertedId: chats.id });
 
       // Create message
       await tx.insert(messages).values({
-        message: input.message,
+        message: input.message.content,
+        role: input.message.role,
         userId: input.userId,
         chatId: chat[0]?.insertedId,
       });
