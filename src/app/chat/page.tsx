@@ -1,10 +1,11 @@
 "use client";
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { useChat } from "ai/react";
+import { useParams } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
-import { useExpandingTextArea } from "~/hooks";
+import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
 // const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
 
@@ -13,6 +14,8 @@ export default function Chat() {
     useChat({ sendExtraMessageFields: true });
 
   const { textareaRef, onInput } = useExpandingTextArea();
+
+  const { chatId } = useChatPageParams();
 
   return (
     <div className="mx-auto w-full max-w-screen-md">

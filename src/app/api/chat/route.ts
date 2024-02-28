@@ -1,9 +1,9 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { z } from "zod";
 import { NextResponse } from "next/server";
 
 import { appCaller } from "~/server/api";
+import { RequestBodySchema } from "./types";
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -13,24 +13,13 @@ const openai = new OpenAI({
 // Set the runtime to edge for best performance
 export const runtime = "edge";
 
-// Define the request body schema
-const ChatCompletionMessageParamSchema = z.object({
-  role: z.enum(["user", "system", "assistant"]),
-  content: z.string(),
-});
-const RequestBodySchema = z.object({
-  messages: z.array(ChatCompletionMessageParamSchema),
-});
-type RequestBodyType = z.infer<typeof RequestBodySchema>;
-
 // POST REQUEST HANDLER
 export async function POST(req: Request) {
   try {
-    const body = (await req.json()) as RequestBodyType;
-    console.log("body :>> ", body);
-    const parsed = RequestBodySchema.parse(body);
+    const body = RequestBodySchema.parse(await req.json());
 
-    const { messages } = parsed;
+    if (!body.chatId) {
+    }
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response = await openai.chat.completions.create({
