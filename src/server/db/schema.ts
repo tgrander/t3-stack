@@ -24,13 +24,14 @@ export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 /************************************************************
  * MESSAGES
  ************************************************************/
-export const roleEnum = pgEnum("role", [
+export const messageRoles: [string, ...string[]] = [
   "user",
   "assistant",
   "system",
   "tool",
   "function",
-]);
+];
+export const roleEnum = pgEnum("role", messageRoles);
 
 export const messages = createTable(
   "message",
@@ -45,7 +46,7 @@ export const messages = createTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt"),
+    updatedAt: timestamp("updated_at"),
     flags: json("flags"),
     role: roleEnum("role").notNull(),
   },
@@ -83,7 +84,7 @@ export const chats = createTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt"),
+    updatedAt: timestamp("updated_at"),
   },
   (example) => ({
     chatIndex: index("chat_idx").on(example.name),
@@ -105,15 +106,16 @@ export const users = createTable(
   "user",
   {
     id: serial("id").primaryKey(),
+    email: varchar("email", { length: 256 }).unique(),
     name: varchar("name", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt"),
+    updatedAt: timestamp("updated_at"),
   },
   (example) => ({
-    userIndex: index("user_idx").on(example.name),
+    userIndex: index("user_idx").on(example.name, example.email),
   }),
 );
 
@@ -139,7 +141,7 @@ export const aiCharacters = createTable(
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt"),
+    updatedAt: timestamp("updated_at"),
   },
   (example) => ({
     aiIndex: index("ai_idx").on(example.name, example.personalityType), // For faster lookups
