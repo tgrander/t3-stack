@@ -1,9 +1,20 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse, NextRequest } from "next/server";
+import { z } from "zod";
+import { auth } from "@clerk/nextjs";
 
-import { RequestBodySchema } from "./types";
+// import { caller } from "~/trpc/server";
+import { RequestBodySchema, ChatCompletionMessageParamSchema } from "./types";
 import { createNewChat } from "./createNewChat";
+
+type ChatCompletionMessageParamTypes = z.infer<
+  typeof ChatCompletionMessageParamSchema
+>;
+
+const getLastMessage = (messages: ChatCompletionMessageParamTypes[]) => {
+  return messages[messages.length - 1];
+};
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -19,7 +30,7 @@ export async function POST(req: NextRequest) {
     const body = RequestBodySchema.parse(await req.json());
 
     if (!body.chatId) {
-      return await createNewChat({ req });
+      return await createNewChat({ req, body });
     }
 
     // Ask OpenAI for a streaming chat completion given the prompt
@@ -55,7 +66,8 @@ export async function POST(req: NextRequest) {
       const { name, status, headers, message } = error;
       return NextResponse.json({ name, status, headers, message }, { status });
     } else {
-      throw error;
+      console.error(error);
+      return NextResponse.json({ error }, { status: 500 });
     }
   }
 }

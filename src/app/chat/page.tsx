@@ -10,12 +10,14 @@ import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 // const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({ sendExtraMessageFields: true });
-
-  const { textareaRef, onInput } = useExpandingTextArea();
+  console.log("process.env.POSTGRES_URL :>> ", process.env.POSTGRES_URL);
 
   const { chatId } = useChatPageParams();
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({ sendExtraMessageFields: true, body: {} });
+
+  const { textareaRef, onInput } = useExpandingTextArea();
 
   return (
     <div className="mx-auto w-full max-w-screen-md">

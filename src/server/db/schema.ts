@@ -19,9 +19,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator((name) => `t3-test_${name}`);
-
-const userIdType = varchar("id", { length: 36 });
+export const createTable = pgTableCreator((name) => `t3-test-${name}`);
 
 /************************************************************
  * MESSAGES
@@ -40,7 +38,7 @@ export const messages = createTable(
   {
     id: serial("id").primaryKey(),
     message: varchar("message", { length: 1000 }).notNull(),
-    userId: userIdType,
+    userId: varchar("user_id", { length: 36 }),
     isGuest: boolean("is_guest").default(false),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
     aiCharacterId: serial("ai_character_id"),
@@ -81,7 +79,7 @@ export const chats = createTable(
   {
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
-    userId: userIdType,
+    userId: varchar("user_id", { length: 36 }),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
@@ -89,7 +87,7 @@ export const chats = createTable(
     updatedAt: timestamp("updated_at"),
   },
   (example) => ({
-    chatIndex: index("chat_idx").on(example.name),
+    chatIndex: index("chat_idx").on(example.id),
   }),
 );
 
