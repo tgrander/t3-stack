@@ -10,6 +10,7 @@ import {
   varchar,
   boolean,
   json,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -23,6 +24,14 @@ export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 /************************************************************
  * MESSAGES
  ************************************************************/
+const roleEnum = pgEnum("role", [
+  "user",
+  "assistant",
+  "system",
+  "tool",
+  "function",
+]);
+
 export const messages = createTable(
   "message",
   {
@@ -38,6 +47,7 @@ export const messages = createTable(
       .notNull(),
     updatedAt: timestamp("updatedAt"),
     flags: json("flags"),
+    role: roleEnum("role").notNull(),
   },
   (example) => ({
     messageIndex: index("message_idx").on(example.message),
