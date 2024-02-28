@@ -1,20 +1,19 @@
-// "use client";
-// import { useRouter } from "next/navigation";
-// import { useState } from "react";
-// import { api } from "~/trpc/react";
-
-// const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
-
 "use client";
+import { useRef } from "react";
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { useChat } from "ai/react";
 
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
+import { useExpandingTextArea } from "~/hooks";
+
+// const guestSessionId = "6a5ae9b1-5d6c-4932-9838-08e156a332ae";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat();
+
+  const { textareaRef, onInput } = useExpandingTextArea();
 
   return (
     <div className="flex flex-1">
@@ -32,13 +31,15 @@ export default function Chat() {
             ))}
           </div>
           <div className="relative flex items-end p-4">
-            <form className="w-full" onSubmit={handleSubmit}>
+            <form className="h-auto w-full" onSubmit={handleSubmit}>
               <Textarea
-                className="form-textarea min-h-[60px] w-full resize-none overflow-hidden rounded-md border pb-2 pl-3 pr-16 pt-2 text-lg"
+                ref={textareaRef}
+                className="form-textarea h-auto min-h-[60px] w-full resize-none overflow-hidden rounded-md border pb-2 pl-3 pr-16 pt-2 text-lg"
                 placeholder="Send a message to Debate King..."
                 rows={1}
                 value={input}
                 onChange={handleInputChange}
+                onInput={onInput}
                 onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
                   const isEnterKey =
                     e.key === "Enter" || e.key === "NumpadEnter";
