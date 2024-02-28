@@ -16,7 +16,14 @@ export default function ChatLayout({ children }: React.PropsWithChildren) {
       </div>
       <div className="flex flex-1 md:pl-64">
         {/* Messenger */}
-        {children}
+        <div className="mx-auto w-full max-w-screen-md">
+          <div className="flex h-full flex-col p-6">
+            <h2 className="mb-4 text-2xl font-semibold">
+              Chat with Robin Williams
+            </h2>
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );
