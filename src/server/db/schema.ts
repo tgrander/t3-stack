@@ -37,6 +37,7 @@ export const messages = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt"),
+    flags: json("flags"),
   },
   (example) => ({
     messageIndex: index("message_idx").on(example.message),
@@ -68,6 +69,7 @@ export const chats = createTable(
     id: serial("id").primaryKey(),
     name: varchar("name", { length: 256 }),
     userId: serial("user_id"),
+    guestSessionId: varchar("guest_session_id", { length: 36 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
