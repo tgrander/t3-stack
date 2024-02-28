@@ -4,7 +4,6 @@ import { z } from "zod";
 
 import { db } from "~/server/db";
 import { chats, messages as messagesSchema } from "~/server/db/schema";
-// import { caller } from "~/trpc/server";
 import { ChatCompletionMessageParamSchema, RequestBodyType } from "./types";
 
 export const createNewChat = async ({
@@ -27,7 +26,7 @@ export const createNewChat = async ({
       .insert(chats)
       .values({
         userId: userId,
-        // guestSessionId: guestSessionId ? guestSessionId.value : undefined,
+        guestSessionId: guestSessionId ? guestSessionId.value : undefined,
       })
       .returning({ insertedId: chats.id });
 
