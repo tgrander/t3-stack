@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
-export default function Chat() {
+export default function PersonaChatPage() {
   const { chatId } = useChatPageParams();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
