@@ -1,9 +1,9 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-import { appCaller } from "~/server/api";
 import { RequestBodySchema } from "./types";
+import { createNewChat } from "./createNewChat";
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -14,11 +14,12 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 // POST REQUEST HANDLER
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = RequestBodySchema.parse(await req.json());
 
     if (!body.chatId) {
+      return await createNewChat({ req });
     }
 
     // Ask OpenAI for a streaming chat completion given the prompt
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
       model: "gpt-3.5-turbo",
       stream: true,
       messages:
-        messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+        body.messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
     });
 
     // Convert the response into a friendly text-stream
