@@ -6,33 +6,11 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import {
-  getAuth,
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from "@clerk/nextjs/server";
 import { initTRPC } from "@trpc/server";
-import * as trpcNext from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
-
-interface AuthContext {
-  auth: SignedInAuthObject | SignedOutAuthObject;
-}
-
-export const createContextInner = async ({ auth }: AuthContext) => {
-  return {
-    auth,
-  };
-};
-
-export const createContext = async (
-  opts: trpcNext.CreateNextContextOptions,
-) => {
-  return await createContextInner({ auth: getAuth(opts.req) });
-};
 
 /**
  * 1. CONTEXT
@@ -46,12 +24,9 @@ export const createContext = async (
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (
-  opts: trpcNext.CreateNextContextOptions,
-) => {
+export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
     db,
-    ...(await createContextInner({ auth: getAuth(opts.req) })),
     ...opts,
   };
 };
