@@ -14,18 +14,7 @@ export default function ChatLayout({ children }: React.PropsWithChildren) {
         <div className={cn("hidden lg:flex lg:w-72 lg:flex-col", bgGradient)}>
           {/* Chat history content */}
         </div>
-        <div className="flex flex-1">
-          <div className="w-full">
-            <div className="flex h-full flex-col">
-              <div className="flex-1 overflow-y-auto">
-                {/* Chat Server component */}
-              </div>
-              <div className="relative flex items-end p-4">
-                <SendMessage />
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* <SendMessage /> */}
         {/* Conversation Details */}
         {children}
       </div>
