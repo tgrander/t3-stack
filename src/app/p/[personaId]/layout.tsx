@@ -21,13 +21,12 @@ export default async function ChatLayout({
 
   const urlParams = ChatPageParamsSchema.parse(params);
 
-  console.log("urlParams :>> ", urlParams);
-
-  const activePersona = personas.find(({ id }) => id === urlParams.personaId);
+  let activePersona = personas.find(({ id }) => id === urlParams.personaId);
 
   if (!activePersona && !!personas[0]) {
+    activePersona = personas[0];
     // redirect to the chat route for the first persona in the list
-    redirect(routes.newPersonaChat({ personaId: personas[0].id }));
+    redirect(routes.newPersonaChat({ personaId: activePersona.id }));
   } else {
     // throw error?
   }
@@ -56,7 +55,7 @@ export default async function ChatLayout({
         <div className="mx-auto w-full max-w-screen-md">
           <div className="flex h-full flex-col p-6">
             <h2 className="mb-4 text-2xl font-semibold">
-              {`Chat with ${activePersona}`}
+              {`Chat with ${activePersona?.name}`}
             </h2>
             {/* Messenger UI */}
             {children}
