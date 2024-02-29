@@ -11,7 +11,7 @@ export const PersonaSchema = z.object({
   cloudinaryPublicId: z.nullable(z.string()),
   createdById: z.nullable(z.string()),
   configurationData: z.unknown(),
-  personaType: z.enum(personaTypes),
+  personaType: z.array(z.enum(personaTypes)),
 });
 
 export type PersonaSchemaType = z.infer<typeof PersonaSchema>;
