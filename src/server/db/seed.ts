@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import { sql } from "@vercel/postgres";
 import * as schema from "./schema";
 
-import { users, aiCharacters, PersonaType } from "~/server/db/schema";
+import { users, aiCharacters, PersonaType } from "./schema";
 
 const db = drizzle(sql, { schema });
 

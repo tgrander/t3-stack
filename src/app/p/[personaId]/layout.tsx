@@ -42,10 +42,12 @@ export default async function ChatLayout({
       >
         <div className=" px-4 py-4">
           <ul role="list" className="-mx-2 space-y-1">
-            {personas.map((p) => (
-              <li key={p.id} className="w-full">
-                <PersonaNavButtonLink {...p} />
-              </li>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i}>
+                {personas.map((p) => (
+                  <PersonaNavButtonLink key={p.id} {...p} />
+                ))}
+              </div>
             ))}
           </ul>
         </div>
