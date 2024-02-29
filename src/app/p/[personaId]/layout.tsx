@@ -1,8 +1,17 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { cn } from "~/utils";
+import { api } from "~/trpc/server";
 
 const bgGradient = "bg-gradient-to-r from-violet-200 to-pink-200";
 
-export default function ChatLayout({ children }: React.PropsWithChildren) {
+export default async function ChatLayout({
+  children,
+}: React.PropsWithChildren) {
+  // noStore();
+  const personas = await api.persona.get.query();
+
+  console.log("personas :>> ", personas);
+
   return (
     <div className="flex min-h-screen">
       {/* Static Desktop Sidebar */}

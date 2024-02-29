@@ -13,7 +13,6 @@ import { cache } from "react";
 
 import { appRouter, type AppRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
-import { createCaller } from "~/server/api/root";
 import { transformer } from "./shared";
 
 /**
@@ -28,13 +27,6 @@ const createContext = cache(() => {
     headers: heads,
   });
 });
-
-/**
- * This is how you call your tRPC procedures from the server.
- *
- * @see https://trpc.io/docs/v10/server/server-side-calls
- */
-export const caller = createCaller(await createContext());
 
 export const api = createTRPCProxyClient<AppRouter>({
   transformer,
