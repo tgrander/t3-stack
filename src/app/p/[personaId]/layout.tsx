@@ -37,13 +37,14 @@ export default async function ChatLayout({
     <div className="flex min-h-screen">
       {/* Desktop Sidebar */}
       <div
-        className={cn(
-          "hidden bg-gray-300/40 md:fixed md:inset-y-0 md:z-50 md:flex md:w-64 md:flex-col",
-          bgGradient,
-        )}
+        id="sidebar-wrapper"
+        className="hidde md:fixed md:inset-y-0 md:z-50 md:flex md:w-72 md:flex-col"
       >
-        <div className=" px-4 py-4">
-          <ul role="list" className="-mx-2 space-y-2">
+        <div
+          id="sidebar-content"
+          className="my-2 ml-2 h-full rounded-lg bg-white"
+        >
+          <ul role="list" className="mx-2 my-2 space-y-2">
             {personas.map((p) => (
               <li key={p.id}>
                 <PersonaNavButtonLink {...p} />
@@ -52,6 +53,8 @@ export default async function ChatLayout({
           </ul>
         </div>
       </div>
+
+      {/* Main Content */}
       <div className="flex flex-1 md:pl-64">
         <div className="mx-auto w-full max-w-screen-md">
           <div className="flex h-full flex-col p-6">
