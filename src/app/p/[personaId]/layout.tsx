@@ -4,7 +4,6 @@ import { unstable_noStore as noStore } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// import { morePersonas } from "~/data";
 import { api } from "~/trpc/server";
 import { ChatPageParamsSchema } from "~/types";
 import { cn, routes } from "~/utils";
@@ -44,10 +43,10 @@ export default async function ChatLayout({
         )}
       >
         <div className=" px-4 py-4">
-          <ul role="list" className="-mx-2 space-y-1">
-            {/* {morePersonas.map((p) => (
+          <ul role="list" className="-mx-2 space-y-3">
+            {personas.map((p) => (
               <PersonaNavButtonLink key={p.id} {...p} />
-            ))} */}
+            ))}
           </ul>
         </div>
       </div>

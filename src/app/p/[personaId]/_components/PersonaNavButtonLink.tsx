@@ -5,7 +5,6 @@ import { routes } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
 
 export function PersonaNavButtonLink(p: PersonaSchemaType) {
-  console.log("Nav <li> ID :>> ", p.id);
   return (
     <Link href={routes.newPersonaChat({ personaId: p.id })}>
       <Button variant="ghost" className="h-fit w-full px-2 py-2">
@@ -15,11 +14,7 @@ export function PersonaNavButtonLink(p: PersonaSchemaType) {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-shrink flex-col">
-            <p className="text-left text-lg font-medium">{p.name}</p>
-            <p className=" text-left text-sm font-medium text-gray-500">
-              {/* {personaTypes[Math.floor(Math.random() * personaTypes.length)]} */}
-              {p.personaType[0]}
-            </p>
+            <p className=" text-left text-base font-medium">{p.name}</p>
           </div>
         </div>
       </Button>
