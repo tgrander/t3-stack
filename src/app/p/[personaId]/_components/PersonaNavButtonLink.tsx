@@ -5,6 +5,7 @@ import { routes } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
 
 export function PersonaNavButtonLink(p: PersonaSchemaType) {
+  console.log("Nav <li> ID :>> ", p.id);
   return (
     <Link href={routes.newPersonaChat({ personaId: p.id })}>
       <Button variant="ghost" className="h-fit w-full px-2 py-2">
