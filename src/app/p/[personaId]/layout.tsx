@@ -1,20 +1,36 @@
 import { unstable_noStore as noStore } from "next/cache";
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
-import { cn } from "~/utils";
 import { api } from "~/trpc/server";
-import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components/ui";
-import { routes } from "~/utils";
+import { ChatPageParamsSchema } from "~/types";
+import { cn, routes } from "~/utils";
+import { PersonaNavButtonLink } from "./_components/PersonaNavButtonLink";
 
 const bgGradient = "bg-gradient-to-r from-violet-200 to-pink-200";
 
 export default async function ChatLayout({
   children,
-}: React.PropsWithChildren) {
-  // noStore();
+  params,
+}: React.PropsWithChildren & {
+  params: z.infer<typeof ChatPageParamsSchema>;
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  noStore();
   const personas = (await api.persona.get.query()) ?? [];
 
-  console.log("personas :>> ", personas);
+  const urlParams = ChatPageParamsSchema.parse(params);
+
+  console.log("urlParams :>> ", urlParams);
+
+  const activePersona = personas.find(({ id }) => id === urlParams.personaId);
+
+  if (!activePersona && !!personas[0]) {
+    // redirect to the chat route for the first persona in the list
+    redirect(routes.newPersonaChat({ personaId: personas[0].id }));
+  } else {
+    // throw error?
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -29,27 +45,7 @@ export default async function ChatLayout({
           <ul role="list" className="-mx-2 space-y-1">
             {personas.map((p) => (
               <li key={p.id} className="w-full">
-                <Link href={routes.newPersonaChat({ personaId: p.id })}>
-                  <Button variant="ghost" className="h-fit w-full px-2 py-2">
-                    <div className="flex flex-1 items-center justify-start space-x-2">
-                      <Avatar>
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          alt="@shadcn"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-shrink flex-col">
-                        <p className="text-md text-left font-semibold">
-                          {p.name}
-                        </p>
-                        <p className=" text-left text-xs font-medium text-gray-500">
-                          Comedic Relief
-                        </p>
-                      </div>
-                    </div>
-                  </Button>
-                </Link>
+                <PersonaNavButtonLink {...p} />
               </li>
             ))}
           </ul>
@@ -60,8 +56,9 @@ export default async function ChatLayout({
         <div className="mx-auto w-full max-w-screen-md">
           <div className="flex h-full flex-col p-6">
             <h2 className="mb-4 text-2xl font-semibold">
-              Chat with Robin Williams
+              {`Chat with ${activePersona}`}
             </h2>
+            {/* Messenger UI */}
             {children}
           </div>
         </div>

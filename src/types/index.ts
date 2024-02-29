@@ -1,2 +1,1 @@
-export * from "./url/chatPageUrlParams";
-export * from "./url/numberUrlParamSchema";
+export * from "./url/chatPageParams";

@@ -1,11 +1,6 @@
 import { useParams } from "next/navigation";
 import { z } from "zod";
-import { NumberUrlParamSchema } from "~/types";
-
-const ChatPageParamsSchema = z.object({
-  chatId: NumberUrlParamSchema,
-  personaId: NumberUrlParamSchema,
-});
+import { ChatPageParamsSchema } from "~/types";
 
 type ChatPageParams = z.infer<typeof ChatPageParamsSchema>;
 
