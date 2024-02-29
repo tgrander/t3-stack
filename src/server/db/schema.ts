@@ -79,8 +79,8 @@ export const users = createTable(
   {
     id: varchar("id", { length: 36 }),
     email: varchar("email", { length: 256 }).unique(),
-    firstName: varchar("name", { length: 256 }),
-    lastName: varchar("name", { length: 256 }),
+    firstName: varchar("firstName", { length: 256 }),
+    lastName: varchar("lastName", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),
     cloudinaryPublicId: varchar("cloudinary_public_id", { length: 255 }),
     createdAt: timestamp("created_at")

@@ -30,22 +30,20 @@ export const create = publicProcedure
   .mutation(async ({ ctx, input }) => {
     await ctx.db.transaction(async (tx) => {
       // Create chat
-      const chat = await tx
-        .insert(chats)
-        .values({
-          userId: input.userId,
-          guestSessionId: input.userId ? undefined : input.guestSessionId,
-        })
-        .returning({ insertedId: chats.id });
-
-      // Create message
-      await tx.insert(messages).values({
-        message: input.message.content,
-        role: input.message.role,
-        userId: input.userId,
-        chatId: chat[0]?.insertedId,
-      });
-
-      return { chatId: chat[0]?.insertedId };
+      // const chat = await tx
+      //   .insert(chats)
+      //   .values({
+      //     userId: input.userId,
+      //     guestSessionId: input.userId ? undefined : input.guestSessionId,
+      //   })
+      //   .returning({ insertedId: chats.id });
+      // // Create message
+      // await tx.insert(messages).values({
+      //   message: input.message.content,
+      //   role: input.message.role,
+      //   userId: input.userId,
+      //   chatId: chat[0]?.insertedId,
+      // });
+      // return { chatId: chat[0]?.insertedId };
     });
   });

@@ -3,11 +3,13 @@
     /* Base Options: */
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "es2022",
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
+    "outDir": "./dist",
+    "target": "ESNext",
+    "allowSyntheticDefaultImports": true,
 
     /* Strictness */
     "strict": true,
@@ -16,7 +18,7 @@
 
     /* Bundled projects */
     "lib": ["dom", "dom.iterable", "ES2022"],
-    "noEmit": true,
+    "noEmit": false,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "preserve",

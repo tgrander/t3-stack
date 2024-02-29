@@ -1,7 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { caller } from "~/trpc/server";
 
 // https://whoryou.vercel.app/api/webhooks/clerk/user-signup
 
@@ -74,14 +73,12 @@ export async function POST(req: Request) {
         const emails = evt.data.email_addresses;
         const email = emails[0]?.email_address;
 
-        const user = await caller.user.createUser({
-          id,
-          firstName,
-          lastName,
-          email,
-        });
-
-        console.log("user :>> ", user);
+      // const user = await caller.user.createUser({
+      //   id,
+      //   firstName,
+      //   lastName,
+      //   email,
+      // });
     }
 
     console.log("5");

@@ -22,25 +22,26 @@ export const createNewChat = async ({
 
   const chatId = await db.transaction(async (tx) => {
     // Create chat
-    const chat = await tx
-      .insert(chats)
-      .values({
-        userId: userId,
-        guestSessionId: guestSessionId ? guestSessionId.value : undefined,
-      })
-      .returning({ insertedId: chats.id });
+    // const chat = await tx
+    //   .insert(chats)
+    //   .values({
+    //     userId: userId,
+    //     guestSessionId: guestSessionId ? guestSessionId.value : undefined,
+    //   })
+    //   .returning({ insertedId: chats.id });
 
-    const chatId = chat[0]?.insertedId;
+    // const chatId = chat[0]?.insertedId;
 
     // Create message
-    await tx.insert(messagesSchema).values({
-      message: message.content,
-      role: message.role,
-      userId: userId,
-      chatId: chat[0]?.insertedId,
-    });
+    // await tx.insert(messagesSchema).values({
+    //   message: message.content,
+    //   role: message.role,
+    //   userId: userId,
+    //   chatId: chat[0]?.insertedId,
+    // });
 
-    return { chatId };
+    // return { chatId };
+    return "hello";
   });
 
   return NextResponse.json(chatId, { status: 200 });

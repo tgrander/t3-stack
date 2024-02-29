@@ -22,6 +22,20 @@
       "when": 1709203963782,
       "tag": "0002_nebulous_victor_mancha",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1709217450804,
+      "tag": "0003_superb_maximus",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1709217821524,
+      "tag": "0004_funny_ozymandias",
+      "breakpoints": true
     }
   ]
 }
