@@ -19,7 +19,7 @@ export default async function ChatLayout({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   noStore();
-  const personas = (await api.persona.get.query()) ?? [];
+  const personas = (await api.persona.getAll.query()) ?? [];
 
   const urlParams = ChatPageParamsSchema.parse(params);
 
@@ -53,7 +53,7 @@ export default async function ChatLayout({
       <div className="flex flex-1 md:pl-64">
         <div className="mx-auto w-full max-w-screen-md">
           <div className="flex h-full flex-col p-6">
-            <PersonaHeader />
+            <PersonaHeader personas={personas} />
             {/* Messenger UI */}
             {children}
           </div>

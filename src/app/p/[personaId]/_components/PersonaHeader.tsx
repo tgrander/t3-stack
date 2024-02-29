@@ -1,15 +1,16 @@
 "use client";
 
 import { useChatPageParams } from "~/hooks";
+import { api } from "~/trpc/server";
+import { PersonaSchemaType } from "~/schema";
 
-export function PersonaHeader() {
+interface Props {
+  personas: PersonaSchemaType[];
+}
+
+export function PersonaHeader({ personas }: Props) {
   const { personaId } = useChatPageParams();
-  // const activePersona = morePersonas.find((p) => p.id === personaId);
+  const activePersona = personas.find(({ id }) => id === personaId);
 
-  return (
-    <h2 className="mb-4 text-2xl font-semibold">
-      {/* {`Chat with ${activePersona?.name}`} */}
-      Robin Williams
-    </h2>
-  );
+  return <h2 className="mb-4 text-2xl font-semibold">{activePersona?.name}</h2>;
 }

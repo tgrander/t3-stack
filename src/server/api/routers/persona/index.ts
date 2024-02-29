@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { get } from "./get";
+import { getAll, getOne } from "./get";
 
 export const personaRouter = createTRPCRouter({
-  get,
+  getOne,
+  getAll,
 });
