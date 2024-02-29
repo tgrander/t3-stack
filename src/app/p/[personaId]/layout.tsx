@@ -1,6 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { cn } from "~/utils";
 import { api } from "~/trpc/server";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui";
 
 const bgGradient = "bg-gradient-to-r from-violet-200 to-pink-200";
 
@@ -21,7 +22,25 @@ export default async function ChatLayout({
           bgGradient,
         )}
       >
-        {/* Sidebar content */}
+        <div className=" px-4 py-4">
+          {personas.map((p) => (
+            <div className="flex items-center space-x-2">
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-shrink flex-col">
+                <p className=" text-md font-semibold">{p.name}</p>
+                <p className=" text-xs font-medium text-gray-500">
+                  Comedic Relief
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="flex flex-1 md:pl-64">
         {/* Messenger */}
