@@ -10,7 +10,7 @@ export const PersonaSchema = z.object({
   avatarImage: z.nullable(z.string()),
   cloudinaryPublicId: z.nullable(z.string()),
   createdById: z.nullable(z.string()),
-  configurationData: z.unknown(),
+  configurationData: z.unknown().nullable().optional(),
   personaType: z.array(z.enum(personaTypes)),
 });
 
