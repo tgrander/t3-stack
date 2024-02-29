@@ -5,9 +5,8 @@ import { sql, relations } from "drizzle-orm";
 import {
   index,
   pgTableCreator,
-  serial,
-  timestamp,
   varchar,
+  timestamp,
   boolean,
   json,
   pgEnum,
@@ -37,13 +36,13 @@ export const roleEnum = pgEnum("role", messageRoles);
 export const messages = createTable(
   "message",
   {
-    id: serial("id").primaryKey(),
+    id: varchar("id", { length: 36 }).primaryKey(),
     message: varchar("message", { length: 1000 }).notNull(),
     userId: varchar("user_id", { length: 36 }),
     isGuest: boolean("is_guest").default(false),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
-    aiCharacterId: serial("ai_character_id"),
-    chatId: serial("chat_id"),
+    aiCharacterId: varchar("ai_character_id"),
+    chatId: varchar("chat_id"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -106,7 +105,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const chats = createTable(
   "chat",
   {
-    id: serial("id").primaryKey(),
+    id: varchar("id", { length: 36 }).primaryKey(),
     name: varchar("name", { length: 256 }),
     userId: varchar("user_id", { length: 36 }),
     guestSessionId: varchar("guest_session_id", { length: 36 }),
@@ -136,10 +135,10 @@ export const chatsRelations = relations(chats, ({ many, one }) => ({
 export const aiCharsOnChats = createTable(
   "ai_characters_chats",
   {
-    aiCharacterId: serial("ai_character_id")
+    aiCharacterId: varchar("ai_character_id", { length: 36 })
       .notNull()
       .references(() => chats.id),
-    chatId: serial("chat_id")
+    chatId: varchar("chat_id", { length: 36 })
       .notNull()
       .references(() => aiCharacters.id),
   },
@@ -189,7 +188,7 @@ export const personaTypeEnum = pgEnum("personaType", personaTypes);
 export const aiCharacters = createTable(
   "ai_character",
   {
-    id: serial("id").primaryKey(),
+    id: varchar("id", { length: 36 }).primaryKey(),
     name: varchar("name", { length: 100 }).notNull(),
     createdById: varchar("user_id", { length: 36 }),
     personaType: json("persona_type").notNull(),
