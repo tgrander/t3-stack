@@ -1,15 +1,13 @@
 import "server-only";
 
-import { unstable_noStore as noStore } from "next/cache";
-import { redirect } from "next/navigation";
+// import { unstable_noStore as noStore } from "next/cache";
+import Link from "next/link";
 import { z } from "zod";
 
 import { api } from "~/trpc/server";
 import { ChatPageParamsSchema } from "~/types";
-import { cn, routes } from "~/utils";
+import { routes, personaChatRoute } from "~/utils";
 import { PersonaNavButtonLink, PersonaHeader } from "./_components";
-
-const bgGradient = "bg-gradient-to-r from-violet-200 to-pink-200";
 
 export default async function ChatLayout({
   children,
@@ -18,20 +16,8 @@ export default async function ChatLayout({
   params: z.infer<typeof ChatPageParamsSchema>;
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  noStore();
+  // noStore();
   const personas = (await api.persona.getAll.query()) ?? [];
-
-  const urlParams = ChatPageParamsSchema.parse(params);
-
-  let activePersona = personas.find(({ id }) => id === urlParams.personaId);
-
-  if (!activePersona && !!personas[0]) {
-    activePersona = personas[0];
-    // redirect to the chat route for the first persona in the list
-    redirect(routes.newPersonaChat({ personaId: activePersona.id }));
-  } else {
-    // throw error?
-  }
 
   return (
     <div className="flex min-h-screen">
@@ -42,12 +28,12 @@ export default async function ChatLayout({
       >
         <div
           id="sidebar-content"
-          className="my-2 ml-2 h-full rounded-lg bg-white"
+          className="my-2 ml-2 h-full rounded-2xl bg-white drop-shadow"
         >
           <ul role="list" className="mx-2 my-2 space-y-2">
             {personas.map((p) => (
               <li key={p.id}>
-                <PersonaNavButtonLink {...p} />
+                <PersonaNavButtonLink persona={p} />
               </li>
             ))}
           </ul>
