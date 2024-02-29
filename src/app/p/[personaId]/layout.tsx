@@ -8,7 +8,7 @@ export default async function ChatLayout({
   children,
 }: React.PropsWithChildren) {
   // noStore();
-  const personas = await api.persona.get.query();
+  const personas = (await api.persona.get.query()) ?? [];
 
   console.log("personas :>> ", personas);
 
