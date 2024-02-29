@@ -2,7 +2,7 @@ import { z } from "zod";
 import { personaTypes } from "~/server/db/schema";
 
 export const PersonaSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   createdAt: z.date(),
   updatedAt: z.nullable(z.date()),

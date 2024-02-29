@@ -1,6 +1,6 @@
 export const routes = {
-  personaChat: ({ personaId, chatId }: { personaId: number; chatId: number }) =>
+  personaChat: ({ personaId, chatId }: { personaId: string; chatId: string }) =>
     `/p/${personaId}/c/${chatId}`,
 
-  newPersonaChat: ({ personaId }: { personaId: number }) => `/p/${personaId}`,
+  newPersonaChat: ({ personaId }: { personaId: string }) => `/p/${personaId}`,
 };
