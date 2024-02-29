@@ -12,8 +12,8 @@ import { api } from "~/trpc/react";
 export default function NewPersonaChatPage() {
   const { personaId } = useChatPageParams();
 
-  // const { messages, input, handleInputChange, handleSubmit, isLoading } =
-  //   useChat({ sendExtraMessageFields: true, body: { chatId } });
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({ sendExtraMessageFields: true, body: { chatId: null } });
 
   const { textareaRef, onInput } = useExpandingTextArea();
 

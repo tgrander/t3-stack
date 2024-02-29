@@ -2,7 +2,6 @@ import { chatRouter } from "~/server/api/routers/chat";
 import { userRouter } from "~/server/api/routers/user";
 import { personaRouter } from "~/server/api/routers/persona";
 import { createTRPCRouter, createTRPCCallerFactory } from "~/server/api/trpc";
-import { postRouter } from "./postRouter";
 
 /**
  * This is the primary router for your server.
@@ -13,7 +12,6 @@ export const appRouter = createTRPCRouter({
   chat: chatRouter,
   user: userRouter,
   persona: personaRouter,
-  post: postRouter,
 });
 
 /**

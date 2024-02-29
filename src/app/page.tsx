@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
+import { routes } from "~/utils";
 
 export default async function IndexPage() {
-  redirect("/chat");
+  redirect(routes.newPersonaChat({ personaId: 123 }));
 }
