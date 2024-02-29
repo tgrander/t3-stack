@@ -1,19 +1,9 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components/ui";
 import { routes } from "~/utils";
+import { PersonaSchemaType } from "~/schema";
 
-export function PersonaNavButtonLink(p: {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-  description: string | null;
-  avatarImage: string | null;
-  cloudinaryPublicId: string | null;
-  createdById: string | null;
-  personaType: unknown;
-  configurationData: unknown;
-}) {
+export function PersonaNavButtonLink(p: PersonaSchemaType) {
   return (
     <Link href={routes.newPersonaChat({ personaId: p.id })}>
       <Button variant="ghost" className="h-fit w-full px-2 py-2">

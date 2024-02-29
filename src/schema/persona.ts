@@ -13,3 +13,5 @@ export const PersonaSchema = z.object({
   configurationData: z.unknown(),
   personaType: z.enum(personaTypes),
 });
+
+export type PersonaSchemaType = z.infer<typeof PersonaSchema>;
