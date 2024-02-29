@@ -166,7 +166,7 @@ export const aiCharactersOnChatsRelations = relations(
  * AI CHARACTERS
  ************************************************************/
 
-const personaTypes = [
+export const personaTypes = [
   "Inspirational Leader",
   "Creative Genius",
   "Comedic Relief",
