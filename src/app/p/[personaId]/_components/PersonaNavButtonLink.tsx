@@ -1,7 +1,9 @@
 import Link from "next/link";
+
 import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components/ui";
 import { routes } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
+import { personaTypes } from "~/server/db/schema";
 
 export function PersonaNavButtonLink(p: PersonaSchemaType) {
   return (
@@ -13,9 +15,9 @@ export function PersonaNavButtonLink(p: PersonaSchemaType) {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-shrink flex-col">
-            <p className="text-md text-left font-semibold">{p.name}</p>
-            <p className=" text-left text-xs font-medium text-gray-500">
-              Comedic Relief
+            <p className="text-left text-lg font-medium">{p.name}</p>
+            <p className=" text-left text-sm font-medium text-gray-500">
+              {personaTypes[Math.floor(Math.random() * personaTypes.length)]}
             </p>
           </div>
         </div>
