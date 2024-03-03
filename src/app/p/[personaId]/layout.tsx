@@ -13,7 +13,7 @@ export default async function ChatLayout({
   params,
 }: React.PropsWithChildren & {
   params: z.infer<typeof ChatPageParamsSchema>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Record<string, string | string[] | undefined>;
 }) {
   // noStore();
   const personas = (await api.persona.getAll.query()) ?? [];

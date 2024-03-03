@@ -86,6 +86,8 @@ export async function POST(req: Request) {
     return new Response("", { status: 200 });
   } catch (error) {
     console.error(error);
-    return new Response(`${error}`, { status: 500 });
+    return new Response("Error creating user in Clern webhook", {
+      status: 500,
+    });
   }
 }
