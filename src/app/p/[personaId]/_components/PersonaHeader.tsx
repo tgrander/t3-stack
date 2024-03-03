@@ -1,7 +1,6 @@
 "use client";
 
 import { useChatPageParams } from "~/hooks";
-import { api } from "~/trpc/server";
 import { PersonaSchemaType } from "~/schema";
 
 interface Props {
