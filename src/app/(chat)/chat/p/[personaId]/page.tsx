@@ -20,7 +20,6 @@ export default function NewChatPage() {
 
   const createChat = api.chat.create.useMutation({
     onSuccess: (chatId) => {
-      console.log("createChat.onSuccess: chatId :>> ", chatId);
       router.push(`/chat/p/${personaId}/c/${chatId}`);
     },
   });
@@ -68,7 +67,6 @@ export default function NewChatPage() {
                 return;
               } else if (isEnterKey) {
                 e.preventDefault();
-                // e.currentTarget.form?.requestSubmit();
                 handleSubmit();
               }
             }}
