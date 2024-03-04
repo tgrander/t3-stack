@@ -39,7 +39,7 @@ export default async function ChatLayout({
 
 function SidebarHeader() {
   return (
-    <Card className="flex">
+    <Card className="flex h-20">
       <CardHeader>
         <CardTitle className=" text-lg">Personas</CardTitle>
       </CardHeader>
