@@ -17,5 +17,8 @@ export const getRoute = {
   personaChat: ({ personaId, chatId }: { personaId: string; chatId: string }) =>
     `/p/${personaId}/c/${chatId}`,
 
+  chatWithPersona: ({ personaId }: { personaId: string }) =>
+    `/chat/p/${personaId}`,
+
   newPersonaChat: ({ personaId }: { personaId: string }) => `/p/${personaId}`,
 };

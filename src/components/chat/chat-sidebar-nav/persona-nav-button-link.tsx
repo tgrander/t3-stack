@@ -15,7 +15,7 @@ export function PersonaNavButtonLink({ persona }: Props) {
   const router = useRouter();
 
   return (
-    <Link href={persona.href}>
+    <Link href={getRoute.chatWithPersona({ personaId: persona.id })}>
       {/* <Button variant="ghost" className="h-fit w-full px-2 py-2"> */}
       <div className="flex flex-1 items-center justify-start space-x-2">
         <Avatar className="h-9 w-9">
