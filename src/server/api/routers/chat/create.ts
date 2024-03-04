@@ -7,6 +7,7 @@ export const create = publicProcedure
   .input(
     z
       .object({
+        personaId: z.string(),
         message: z.object({
           content: z.string().min(1),
           role: z.enum(messageRoles),

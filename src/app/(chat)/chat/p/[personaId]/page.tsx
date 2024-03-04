@@ -7,33 +7,48 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
+import { api } from "~/trpc/react";
 
 export default function NewChatPage() {
-  // const { personaId } = useChatPageParams();
-
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({ sendExtraMessageFields: true, body: { chatId: null } });
+  const { personaId } = useChatPageParams();
 
   const { textareaRef, onInput } = useExpandingTextArea();
 
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const createChat = api.chat.create.useMutation({
-  //   onSuccess: () => {
-  //     router.refresh();
-  //     // setName("");
-  //   },
-  // });
+  const createChat = api.chat.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+      // setName("");
+    },
+  });
+
+  const { input, handleInputChange, handleSubmit, isLoading } = useChat({
+    api: "",
+    sendExtraMessageFields: true,
+    experimental_onFunctionCall: async (chatMessages) => {
+      if (createChat.isLoading) {
+        return;
+      }
+      const message = chatMessages[chatMessages.length - 1];
+      if (!message || !personaId) return;
+
+      createChat.mutate({
+        personaId,
+        message,
+      });
+    },
+  });
 
   return (
     <>
       <div className="flex-1 overflow-y-auto">
-        {messages.map((m) => (
+        {/* {messages.map((m) => (
           <div key={m.id} className="whitespace-pre-wrap">
             {m.role === "user" ? "User: " : "AI: "}
             {m.content}
           </div>
-        ))}
+        ))} */}
       </div>
       <div className="relative flex items-end">
         <form className="h-auto w-full" onSubmit={handleSubmit}>
