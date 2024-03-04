@@ -1,4 +1,4 @@
-export default async function PersonaChat({
+export default async function PersonaChatPage({
   params,
 }: {
   params: { personaId?: string };
