@@ -5,8 +5,7 @@ import { z } from "zod";
 
 import { api } from "~/trpc/server";
 import { ChatPageParamsSchema } from "~/types";
-// import { PersonaHeader } from "./_components";
-import { ChatsSidebarNav } from "~/components/chat";
+import { ChatsSidebarNav, ChatHeader } from "~/components/chat";
 
 export default async function ChatLayout({
   children,
@@ -24,7 +23,7 @@ export default async function ChatLayout({
       <div className="flex flex-1 md:pl-64">
         <div className="mx-auto w-full max-w-screen-md">
           <div className="flex h-full flex-col p-6">
-            {/* <PersonaHeader personas={personas} /> */}
+            <ChatHeader personas={personas} />
             {/* Messenger UI */}
             {children}
           </div>
