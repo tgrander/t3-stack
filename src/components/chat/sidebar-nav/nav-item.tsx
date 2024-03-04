@@ -12,7 +12,7 @@ type Props = {
   persona: PersonaSchemaType;
 };
 
-export function PersonaNavButtonLink({ persona }: Props) {
+export function SidebarItem({ persona }: Props) {
   const pathname = usePathname();
 
   return (

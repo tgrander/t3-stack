@@ -10,7 +10,6 @@ import { Card, CardTitle, CardHeader } from "~/components/ui/card";
 
 export default async function ChatLayout({
   children,
-  params,
 }: React.PropsWithChildren & {
   params: z.infer<typeof ChatPageParamsSchema>;
   searchParams: Record<string, string | string[] | undefined>;

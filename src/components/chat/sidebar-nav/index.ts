@@ -1,1 +1,1 @@
-export * from "./persona-nav-button-link";
+export * from "./nav-item";

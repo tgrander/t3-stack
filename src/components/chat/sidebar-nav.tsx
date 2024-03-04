@@ -1,4 +1,4 @@
-import { PersonaNavButtonLink } from "./sidebar-nav/";
+import { SidebarItem } from "./sidebar-nav/";
 import { PersonaSchemaType } from "~/schema";
 import { Card, CardContent } from "~/components/ui/card";
 
@@ -13,7 +13,7 @@ export const SidebarNav: React.FC<Props> = ({ items }) => {
         <ul role="list" className="space-y-1">
           {items.map((p) => (
             <li key={p.id}>
-              <PersonaNavButtonLink persona={p} />
+              <SidebarItem persona={p} />
             </li>
           ))}
         </ul>
