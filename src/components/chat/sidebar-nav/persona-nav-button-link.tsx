@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components/ui";
-import { getRoute, personaChatRoute } from "~/utils";
+import { getRoute } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
 
 type Props = {
@@ -12,8 +11,6 @@ type Props = {
 };
 
 export function PersonaNavButtonLink({ persona }: Props) {
-  const router = useRouter();
-
   return (
     <Link href={getRoute.chatWithPersona({ personaId: persona.id })}>
       {/* <Button variant="ghost" className="h-fit w-full px-2 py-2"> */}

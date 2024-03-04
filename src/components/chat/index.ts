@@ -1,1 +1,1 @@
-export * from "./chat-sidebar-nav";
+export * from "./sidebar-nav";

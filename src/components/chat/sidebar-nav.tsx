@@ -1,4 +1,4 @@
-import { PersonaNavButtonLink } from "./chat-sidebar-nav/";
+import { PersonaNavButtonLink } from "./sidebar-nav/";
 import { PersonaSchemaType } from "~/schema";
 
 interface Props {

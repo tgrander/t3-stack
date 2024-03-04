@@ -7,7 +7,6 @@ import { api } from "~/trpc/server";
 import { ChatPageParamsSchema } from "~/types";
 // import { PersonaHeader } from "./_components";
 import { ChatsSidebarNav } from "~/components/chat";
-import { PersonaSchemaType } from "~/schema";
 
 export default async function ChatLayout({
   children,
