@@ -1,16 +1,13 @@
+import dotenv from "dotenv";
 import { customAlphabet } from "nanoid";
 import { v4 as uuid } from "uuid";
-import { NewPersona, NewUser, insertPersona, insertUser } from "./index";
 
-import dotenv from "dotenv";
-// import path from "path";
+import { insertPersona, insertUser } from "./index";
+import { NewPersona, NewUser } from "./types";
 
-dotenv.config({ path: "./.env.local" }); // Correct as is if running from project root
+dotenv.config({ path: "./.env.local" });
 
 const nanoid = customAlphabet("1234567890abcdef", 10);
-
-console.log(process.env.DATABASE_URL);
-console.log(process.env.POSTGRES_URL);
 
 async function main() {
   console.log("Seeding started 🚀");

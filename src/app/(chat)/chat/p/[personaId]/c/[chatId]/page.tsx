@@ -8,7 +8,9 @@ import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
-export default function NewChatPage() {
+// import { api } from "~/trpc/react";
+
+export default function NewPersonaChatPage() {
   // const { personaId } = useChatPageParams();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =

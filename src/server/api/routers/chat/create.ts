@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { publicProcedure } from "~/server/api/trpc";
 import { messages, chats, messageRoles } from "~/server/db/schema";
+import { getNanoID } from "~/utils";
 
 export const create = publicProcedure
   .input(
@@ -28,22 +29,31 @@ export const create = publicProcedure
       ),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.db.transaction(async (tx) => {
-      // Create chat
-      // const chat = await tx
-      //   .insert(chats)
-      //   .values({
-      //     userId: input.userId,
-      //     guestSessionId: input.userId ? undefined : input.guestSessionId,
-      //   })
-      //   .returning({ insertedId: chats.id });
-      // // Create message
-      // await tx.insert(messages).values({
-      //   message: input.message.content,
-      //   role: input.message.role,
-      //   userId: input.userId,
-      //   chatId: chat[0]?.insertedId,
-      // });
-      // return { chatId: chat[0]?.insertedId };
+    const newChatId = await ctx.db.transaction(async (db) => {
+      const [newChat] = await db
+        .insert(chats)
+        .values({
+          id: getNanoID(),
+          userId: input.userId,
+          guestSessionId: input.guestSessionId,
+        })
+        .returning({ insertedId: chats.id });
+
+      if (newChat === undefined) {
+        throw new Error("Failed to create chat");
+      }
+
+      await db.insert(messages).values({
+        id: getNanoID(),
+        message: input.message.content,
+        userId: input.userId,
+        guestSessionId: input.guestSessionId,
+        role: input.message.role,
+        chatId: newChat.insertedId,
+      });
+
+      return newChat.insertedId;
     });
+
+    return newChatId;
   });
