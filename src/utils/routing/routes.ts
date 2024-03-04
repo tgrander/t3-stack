@@ -13,7 +13,7 @@ const fragments = {
 
 export const personaChatRoute = `/${keys.persona}/${fragments.personaId}/${keys.chat}/${fragments.chatId}`;
 
-export const routes = {
+export const getRoute = {
   personaChat: ({ personaId, chatId }: { personaId: string; chatId: string }) =>
     `/p/${personaId}/c/${chatId}`,
 

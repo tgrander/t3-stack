@@ -2,10 +2,10 @@ import { PersonaNavButtonLink } from "./chat-sidebar-nav/";
 import { PersonaSchemaType } from "~/schema";
 
 interface Props {
-  personas: PersonaSchemaType[];
+  items: PersonaSchemaType[];
 }
 
-export const ChatsSidebarNav: React.FC<Props> = ({ personas }) => {
+export const ChatsSidebarNav: React.FC<Props> = ({ items }) => {
   return (
     <div
       id="sidebar-wrapper"
@@ -16,7 +16,7 @@ export const ChatsSidebarNav: React.FC<Props> = ({ personas }) => {
         className="my-2 ml-2 h-full rounded-2xl bg-white drop-shadow"
       >
         <ul role="list" className="mx-2 my-2 space-y-2">
-          {personas.map((p) => (
+          {items.map((p) => (
             <li key={p.id}>
               <PersonaNavButtonLink persona={p} />
             </li>

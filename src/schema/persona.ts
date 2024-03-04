@@ -14,4 +14,6 @@ export const PersonaSchema = z.object({
   personaType: z.array(z.enum(personaTypes)),
 });
 
-export type PersonaSchemaType = z.infer<typeof PersonaSchema>;
+export type PersonaSchemaType = z.infer<typeof PersonaSchema> & {
+  href: string;
+};

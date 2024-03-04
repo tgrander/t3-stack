@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components/ui";
-import { routes, personaChatRoute } from "~/utils";
+import { getRoute, personaChatRoute } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 export function PersonaNavButtonLink({ persona }: Props) {
   return (
     <Link
-      href={routes.newPersonaChat({ personaId: persona.id })}
+      href={getRoute.newPersonaChat({ personaId: persona.id })}
       passHref
       legacyBehavior
     >
