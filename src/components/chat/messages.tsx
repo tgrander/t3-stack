@@ -1,66 +1,51 @@
 "use client";
 
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useChat } from "ai/react";
+import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
-import { api } from "~/trpc/react";
 
-export default function NewChatPage() {
-  const { personaId } = useChatPageParams();
+// import { api } from "~/trpc/react";
+
+export function ChatMessages() {
+  // const { personaId } = useChatPageParams();
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+    useChat({ sendExtraMessageFields: true, body: { chatId: null } });
 
   const { textareaRef, onInput } = useExpandingTextArea();
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const [message, setMessage] = useState("");
-
-  const createChat = api.chat.create.useMutation({
-    onSuccess: (chatId) => {
-      console.log("createChat.onSuccess: chatId :>> ", chatId);
-      router.push(`/chat/p/${personaId}/c/${chatId}`);
-    },
-  });
-
-  const handleSubmit = () => {
-    console.log("SANITY CHECK");
-    if (createChat.isLoading) {
-      return;
-    }
-    if (!message || !personaId) return;
-
-    createChat.mutate({
-      personaId,
-      message: {
-        role: "user",
-        content: message,
-      },
-    });
-  };
+  // const createChat = api.chat.create.useMutation({
+  //   onSuccess: () => {
+  //     router.refresh();
+  //     // setName("");
+  //   },
+  // });
 
   return (
     <>
-      <div className="flex-1 overflow-y-auto"></div>
+      <div className="flex-1 overflow-y-auto">
+        {messages.map((m) => (
+          <div key={m.id} className="whitespace-pre-wrap">
+            {m.role === "user" ? "User: " : "AI: "}
+            {m.content}
+          </div>
+        ))}
+      </div>
       <div className="relative flex items-end">
-        <form
-          className="h-auto w-full"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-        >
+        <form className="h-auto w-full" onSubmit={handleSubmit}>
           <Textarea
             ref={textareaRef}
             className="form-textarea h-auto min-h-[60px] w-full resize-none overflow-hidden rounded-md border pb-2 pl-3 pr-16 pt-2 text-lg"
             placeholder="Send a message to Debate King..."
             rows={1}
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
+            value={input}
+            onChange={handleInputChange}
             onInput={onInput}
             onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
               const isEnterKey = e.key === "Enter" || e.key === "NumpadEnter";
@@ -69,8 +54,7 @@ export default function NewChatPage() {
                 return;
               } else if (isEnterKey) {
                 e.preventDefault();
-                // e.currentTarget.form?.requestSubmit();
-                handleSubmit();
+                e.currentTarget.form?.requestSubmit();
               }
             }}
           />
@@ -78,7 +62,7 @@ export default function NewChatPage() {
             type="submit"
             size="sm"
             className="absolute bottom-3 right-3"
-            disabled={createChat.isLoading}
+            disabled={isLoading}
           >
             <ArrowUpIcon className="h-4 w-4" />
           </Button>
