@@ -1,28 +1,23 @@
 import { PersonaNavButtonLink } from "./sidebar-nav/";
 import { PersonaSchemaType } from "~/schema";
+import { Card, CardContent } from "~/components/ui/card";
 
 interface Props {
   items: PersonaSchemaType[];
 }
 
-export const ChatsSidebarNav: React.FC<Props> = ({ items }) => {
+export const SidebarNav: React.FC<Props> = ({ items }) => {
   return (
-    <div
-      id="sidebar-wrapper"
-      className="hidde md:fixed md:inset-y-0 md:z-50 md:flex md:w-72 md:flex-col"
-    >
-      <div
-        id="sidebar-content"
-        className="my-2 ml-2 h-full rounded-2xl bg-white drop-shadow"
-      >
-        <ul role="list" className="mx-2 my-2 space-y-2">
+    <Card className="flex flex-1 flex-col">
+      <CardContent className="p-4">
+        <ul role="list" className="space-y-1">
           {items.map((p) => (
             <li key={p.id}>
               <PersonaNavButtonLink persona={p} />
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };

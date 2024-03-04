@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardTitle, CardHeader } from "~/components/ui/card";
 import { useChatPageParams } from "~/hooks";
 import { PersonaSchemaType } from "~/schema";
 
@@ -7,9 +8,15 @@ interface Props {
   personas: PersonaSchemaType[];
 }
 
-export function ChatHeader({ personas }: Props) {
+export function MessagesHeader({ personas }: Props) {
   const { personaId } = useChatPageParams();
   const activePersona = personas.find(({ id }) => id === personaId);
 
-  return <h2 className="mb-4 text-2xl font-semibold">{activePersona?.name}</h2>;
+  return (
+    <Card className="flex">
+      <CardHeader>
+        <CardTitle className=" text-lg">{activePersona?.name}</CardTitle>
+      </CardHeader>
+    </Card>
+  );
 }
