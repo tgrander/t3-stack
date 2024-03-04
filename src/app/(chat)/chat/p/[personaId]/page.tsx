@@ -26,7 +26,6 @@ export default function NewChatPage() {
   });
 
   const handleSubmit = () => {
-    console.log("SANITY CHECK");
     if (createChat.isLoading) {
       return;
     }

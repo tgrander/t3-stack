@@ -1,31 +1,27 @@
 "use client";
 
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
-import { useChat } from "ai/react";
-import { useParams, useRouter } from "next/navigation";
+import { useChat, Message } from "ai/react";
 
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
-// import { api } from "~/trpc/react";
+interface Props {
+  initialMessages: Message[];
+}
 
-export function ChatMessages() {
-  // const { personaId } = useChatPageParams();
+export function ChatMessages({ initialMessages }: Props) {
+  const { personaId, chatId } = useChatPageParams();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({ sendExtraMessageFields: true, body: { chatId: null } });
+    useChat({
+      sendExtraMessageFields: true,
+      body: { personaId, chatId },
+      initialMessages: initialMessages,
+    });
 
   const { textareaRef, onInput } = useExpandingTextArea();
-
-  // const router = useRouter();
-
-  // const createChat = api.chat.create.useMutation({
-  //   onSuccess: () => {
-  //     router.refresh();
-  //     // setName("");
-  //   },
-  // });
 
   return (
     <>

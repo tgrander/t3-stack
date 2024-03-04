@@ -1,12 +1,13 @@
 import "server-only";
 
+import { Message } from "ai/react";
 import { notFound } from "next/navigation";
 
 import { ChatPageParamsType } from "~/types";
 import { ChatMessages } from "~/components/chat";
 import { api } from "~/trpc/server";
 
-export default function ChatMessagesPage({
+export default async function ChatMessagesPage({
   params,
 }: {
   params: ChatPageParamsType;
@@ -16,9 +17,26 @@ export default function ChatMessagesPage({
     return notFound();
   }
 
-  const chat = api.chat.getOne.query({ id: chatId });
+  const chat = await api.chat.getOne.query({ id: chatId });
 
-  console.log("chat :>> ", chat);
+  if (!chat) {
+    return notFound();
+  }
 
-  return <ChatMessages />;
+  const initialMessages = getInitialMessages(chat);
+
+  return <ChatMessages initialMessages={initialMessages} />;
+}
+
+type ChatQuery = Awaited<ReturnType<typeof api.chat.getOne.query>>;
+
+function getInitialMessages(chat: ChatQuery): Message[] {
+  if (!chat) {
+    return [];
+  }
+  return chat.messages.map((m) => ({
+    id: m.id,
+    role: m.role as Message["role"],
+    content: m.message,
+  }));
 }
