@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
         });
       },
     });
+
     // Respond with the stream
     return new StreamingTextResponse(stream);
   } catch (error) {

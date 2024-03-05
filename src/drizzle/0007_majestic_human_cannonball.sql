@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test_ai_character" ADD COLUMN "greeting" varchar(1000);
