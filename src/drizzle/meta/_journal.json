@@ -57,6 +57,13 @@
       "when": 1709615852099,
       "tag": "0007_majestic_human_cannonball",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1709638181517,
+      "tag": "0008_fresh_kronos",
+      "breakpoints": true
     }
   ]
 }
