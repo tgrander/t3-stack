@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test_user" ALTER COLUMN "email" SET NOT NULL;

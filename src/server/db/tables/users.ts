@@ -7,8 +7,8 @@ import { messages, chats, aiCharacters } from "./index";
 export const users = createTable(
   "user",
   {
-    id: varchar("id", { length: 36 }),
-    email: varchar("email", { length: 256 }).unique(),
+    id: varchar("id", { length: 36 }).primaryKey(),
+    email: varchar("email", { length: 256 }).unique().notNull(),
     firstName: varchar("firstName", { length: 256 }),
     lastName: varchar("lastName", { length: 256 }),
     avatarImage: varchar("avatar_image", { length: 255 }),

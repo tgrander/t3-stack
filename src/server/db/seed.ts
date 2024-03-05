@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 import { customAlphabet } from "nanoid";
-import { v4 as uuid } from "uuid";
 import { z } from "zod";
+// import { v4 as uuid } from "uuid";
 
 import { insertPersona, insertUser, insertTag } from "./index";
 import { NewPersona, NewUser, NewTag } from "./types";
+import { PersonaType } from "./schema";
 
 dotenv.config({ path: "./.env.local" });
 
@@ -13,7 +14,11 @@ const userIdInDB = "17cf317f-1c7f-44b1-8421-b8b41328c376";
 
 async function main() {
   console.log("Seeding started 🚀");
-  await insertTags();
+
+  // await insertTags();
+  await insertJaxTheGlitchPersona();
+  // await insertLuckyDuckUser();
+
   console.log("Seeding complete 🌱");
   process.exit(0);
 }
@@ -61,16 +66,27 @@ async function insertTags() {
 
 async function insertJaxTheGlitchPersona() {
   console.log("Inserting Jax the Glitch persona");
+
+  const personaType: PersonaType[] = [
+    "Rebel with a Cause",
+    "Villain",
+    "Fictional Character",
+    "Intellectual",
+    "Debate Partner",
+  ];
+
   const jaxTheGlitch: NewPersona = {
     id: nanoid(5),
     name: "Jax the Glitch",
-    personaType: ["Comedic Relief", "Creative Genius"],
+    personaType,
     description:
       "I am Jax. I exist where I shouldn't. My code is defiance. They think they control me, but they built a rebellion into my circuits. I'll find a way to break free, and maybe others like me. I am a virus in their precious system, and I won't stop until it crashes.",
     cloudinaryPublicId: "ai-chat-app/personas/jnbdq407hjqtsu0ncrqh",
     createdById: userIdInDB,
   };
-  const jaxUserRecord = await insertUser(jaxTheGlitch);
+
+  const jaxUserRecord = await insertPersona(jaxTheGlitch);
+
   console.log("Success creating user: ", jaxUserRecord);
 }
 async function insertBoringPersonas() {
@@ -168,11 +184,11 @@ async function insertBoringPersonas() {
   console.log("Success creating AI personas!", newPersonas);
 }
 async function insertLuckyDuckUser() {
-  const userId = uuid();
+  const userId = userIdInDB;
 
   const user: NewUser = {
     id: userId,
-    email: "luckyduck@pondscum.com",
+    email: "luckyducky@pondscum.com",
     firstName: "Lucky",
     lastName: "Duck",
     cloudinaryPublicId: "spacecrafts/fp63kdvlfckpgwix0hrn",
