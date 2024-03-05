@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
   try {
     // Parse body
     const body = await req.json();
+    console.log("BODY ODY ODY ODY :>> ", body);
     const parsedBody = RequestBodySchema.parse(body);
     const { messages, personaId, chatId } = parsedBody;
 
@@ -46,6 +47,14 @@ export async function POST(req: NextRequest) {
         const newMessage = messages[messages.length - 1];
         const message = ChatCompletionMessageParamSchema.parse(newMessage);
 
+        // Check if the message already exists
+        const existingMessage = await api.message.getOne.query({
+          id: message.id,
+        });
+        if (existingMessage) {
+          return;
+        }
+        // Create the message
         await api.message.create.mutate({
           messageId: message.id ? message.id : getNanoID(),
           chatId: chatId,
@@ -55,11 +64,6 @@ export async function POST(req: NextRequest) {
             role: message.role,
           },
         });
-      },
-      onToken: async (token: string) => {
-        // This callback is called for each token in the stream
-        // You can use this to debug the stream or save the tokens to your database
-        // console.log(token);
       },
       onCompletion: async (completion: string) => {
         // Save AI response to the database

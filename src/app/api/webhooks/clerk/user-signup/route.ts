@@ -6,7 +6,6 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
   try {
-    console.log("1");
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
     const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
@@ -15,8 +14,6 @@ export async function POST(req: Request) {
         "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
       );
     }
-
-    console.log("2");
 
     // Get the headers
     const headerPayload = headers();
@@ -30,8 +27,6 @@ export async function POST(req: Request) {
         status: 400,
       });
     }
-
-    console.log("3");
 
     // Get the body
     const payload = await req.json();
@@ -56,14 +51,12 @@ export async function POST(req: Request) {
       });
     }
 
-    console.log("4");
-
     // Get the ID and type
     const { id } = evt.data;
     const eventType = evt.type;
 
-    console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-    console.log("Webhook body:", body);
+    // console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+    // console.log("Webhook body:", body);
 
     switch (evt.type) {
       case "user.created":
@@ -80,8 +73,6 @@ export async function POST(req: Request) {
       //   email,
       // });
     }
-
-    console.log("5");
 
     return new Response("", { status: 200 });
   } catch (error) {

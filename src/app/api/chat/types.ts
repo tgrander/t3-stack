@@ -2,7 +2,7 @@ import { z } from "zod";
 import { messageRoles } from "~/server/db/schema";
 
 export const ChatCompletionMessageParamSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   role: z.enum(messageRoles),
   content: z.string(),
 });

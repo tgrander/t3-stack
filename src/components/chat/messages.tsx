@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { useChat, Message } from "ai/react";
 
@@ -12,16 +13,32 @@ interface Props {
   reload?: boolean;
 }
 
-export function ChatMessages({ initialMessages, reload }: Props) {
+export function ChatMessages({ initialMessages, reload: shouldReload }: Props) {
   const { personaId, chatId } = useChatPageParams();
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({
-      id: chatId ?? undefined,
-      sendExtraMessageFields: true,
-      body: { personaId, chatId },
-      initialMessages: initialMessages,
-    });
+  const {
+    messages,
+    input,
+    isLoading,
+
+    handleInputChange,
+    handleSubmit,
+
+    reload,
+  } = useChat({
+    id: chatId ?? undefined,
+    sendExtraMessageFields: true,
+    body: { personaId, chatId },
+    initialMessages: initialMessages,
+  });
+
+  const hasCalledReload = useRef(false);
+
+  // useEffect(() => {
+  //   if (shouldReload && messages.length > 0 && !hasCalledReload.current) {
+  //     hasCalledReload.current = true;
+  //   }
+  // }, [reload, shouldReload]);
 
   const { textareaRef, onInput } = useExpandingTextArea();
 
@@ -50,7 +67,7 @@ export function ChatMessages({ initialMessages, reload }: Props) {
               if (e.shiftKey && isEnterKey) {
                 // Allow new line on Shift + Enter
                 return;
-              } else if (isEnterKey) {
+              } else if (isEnterKey && !isLoading) {
                 e.preventDefault();
                 e.currentTarget.form?.requestSubmit();
               }
