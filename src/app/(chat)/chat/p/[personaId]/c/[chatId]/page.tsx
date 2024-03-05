@@ -5,10 +5,8 @@ import OpenAI from "openai";
 import { Suspense } from "react";
 
 import { ChatMessages } from "~/components/chat";
-import { api } from "~/trpc/server";
-import { ChatPageParamsType, ChatPageSearchParamsType } from "~/types";
-
 import { shakespeare as shakespeareSystemPrompt } from "~/constants/prompts";
+import { ChatPageParamsType, ChatPageSearchParamsType } from "~/types";
 
 export const runtime = "edge";
 

@@ -12,20 +12,11 @@ const nanoid = customAlphabet("1234567890abcdef", 10);
 async function main() {
   console.log("Seeding started 🚀");
 
-  // const userId = uuid();
+  process.exit(0);
+}
 
-  // const user: NewUser = {
-  //   id: userId,
-  //   email: "luckduck@gmail.com",
-  //   firstName: "Luck",
-  //   lastName: "Duck",
-  //   cloudinaryPublicId: "spacecrafts/fp63kdvlfckpgwix0hrn",
-  // };
-
-  // const newUser = await insertUser(user);
-
-  // console.log("Success creating user: ", newUser);
-
+async function insertJaxTheGlitchPersona() {}
+async function insertBoringPersonas() {
   const userId = "17cf317f-1c7f-44b1-8421-b8b41328c376";
 
   const personas: NewPersona[] = [
@@ -120,8 +111,21 @@ async function main() {
   console.log("Success creating AI personas!", newPersonas);
 
   console.log("Seeding finished! ✅");
+}
+async function insertLuckyDuckUser() {
+  const userId = uuid();
 
-  process.exit(0);
+  const user: NewUser = {
+    id: userId,
+    email: "luckyduck@pondscum.com",
+    firstName: "Lucky",
+    lastName: "Duck",
+    cloudinaryPublicId: "spacecrafts/fp63kdvlfckpgwix0hrn",
+  };
+
+  const newUser = await insertUser(user);
+
+  console.log("Success creating user: ", newUser);
 }
 
 main()
