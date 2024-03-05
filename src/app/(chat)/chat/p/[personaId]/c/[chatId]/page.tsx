@@ -1,15 +1,16 @@
 import "server-only";
 
-import { Message } from "ai/react";
-import { notFound } from "next/navigation";
+import { OpenAIStream } from "ai";
+import OpenAI from "openai";
+import { Suspense } from "react";
 
-import {
-  ChatPageParamsType,
-  ChatPageSearchParamsSchema,
-  ChatPageSearchParamsType,
-} from "~/types";
 import { ChatMessages } from "~/components/chat";
 import { api } from "~/trpc/server";
+import { ChatPageParamsType, ChatPageSearchParamsType } from "~/types";
+
+import { shakespeare as shakespeareSystemPrompt } from "~/constants/prompts";
+
+export const runtime = "edge";
 
 export default async function ChatMessagesPage({
   params,
@@ -18,34 +19,68 @@ export default async function ChatMessagesPage({
   params: ChatPageParamsType;
   searchParams: ChatPageSearchParamsType;
 }) {
-  const { chatId } = params;
-  if (!chatId) {
-    return notFound();
-  }
+  /**
+   * OPENAI STREAMING
+   */
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY!,
+  });
 
-  if (chatId.startsWith("c-")) {
-    return <ChatMessages isNewChat={true} />;
-  }
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    stream: true,
+    messages: [
+      {
+        role: "system",
+        content: shakespeareSystemPrompt,
+      },
+    ],
+  });
 
-  const chat = await api.chat.getOne.query({ id: chatId });
+  const stream = OpenAIStream(response);
+  const reader = stream.getReader();
 
-  if (!chat) {
-    return notFound();
-  }
-  const initialMessages = getInitialMessages(chat);
-
-  return <ChatMessages initialMessages={initialMessages} />;
+  return (
+    <ChatMessages>
+      <Suspense>
+        <Reader reader={reader} />
+      </Suspense>
+    </ChatMessages>
+  );
 }
 
 type ChatQuery = Awaited<ReturnType<typeof api.chat.getOne.query>>;
 
-function getInitialMessages(chat: ChatQuery): Message[] {
-  if (!chat) {
-    return [];
+async function Reader({
+  reader,
+}: {
+  reader: ReadableStreamDefaultReader<any>;
+}) {
+  const { done, value } = await reader.read();
+
+  if (done) {
+    return null;
   }
-  return chat.messages.map((m) => ({
-    id: m.id,
-    role: m.role as Message["role"],
-    content: m.message,
-  }));
+
+  const text = new TextDecoder().decode(value);
+
+  return (
+    <span>
+      {text}
+      <Suspense>
+        <Reader reader={reader} />
+      </Suspense>
+    </span>
+  );
 }
+
+// function getInitialMessages(chat: ChatQuery): Message[] {
+//   if (!chat) {
+//     return [];
+//   }
+//   return chat.messages.map((m) => ({
+//     id: m.id,
+//     role: m.role as Message["role"],
+//     content: m.message,
+//   }));
+// }

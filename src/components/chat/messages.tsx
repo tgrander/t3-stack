@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import ArrowUpIcon from "@heroicons/react/20/solid/ArrowUpIcon";
 import { useChat, Message } from "ai/react";
 
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
+import { Button } from "~/ui/button";
+import { Textarea } from "~/ui/textarea";
+import { Card } from "~/ui/card";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
-interface Props {
+interface Props extends React.PropsWithChildren {
   initialMessages?: Message[];
   isNewChat?: boolean;
 }
 
-export function ChatMessages({ initialMessages, isNewChat }: Props) {
+export function ChatMessages({ initialMessages, isNewChat, children }: Props) {
   const { personaId, chatId } = useChatPageParams();
 
   const {
@@ -34,6 +34,7 @@ export function ChatMessages({ initialMessages, isNewChat }: Props) {
 
   return (
     <>
+      <Card>{children}</Card>
       <div className="flex-1 overflow-y-auto">
         {messages.map((m) => (
           <div key={m.id} className="whitespace-pre-wrap">
