@@ -16,11 +16,10 @@ export function ChatMessages({ initialMessages }: Props) {
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
-      id: chatId,
+      id: chatId ?? undefined,
       sendExtraMessageFields: true,
       body: { personaId, chatId },
       initialMessages: initialMessages,
-      api: `/api/chat`,
     });
 
   const { textareaRef, onInput } = useExpandingTextArea();

@@ -62,9 +62,16 @@ export async function POST(req: NextRequest) {
         // console.log(token);
       },
       onCompletion: async (completion: string) => {
-        // This callback is called when the stream completes
-        // You can use this to save the final completion to your database
-        // await saveCompletionToDatabase(completion);
+        // Save AI response to the database
+        await api.message.create.mutate({
+          messageId: getNanoID(),
+          chatId,
+          personaId,
+          message: {
+            content: completion,
+            role: "assistant",
+          },
+        });
       },
     });
     // Respond with the stream
