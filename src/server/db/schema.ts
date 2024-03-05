@@ -24,13 +24,14 @@ export const createTable = pgTableCreator((name) => `t3-test_${name}`);
 /************************************************************
  * MESSAGES
  ************************************************************/
-export const messageRoles: [string, ...string[]] = [
+export const messageRoles = [
   "user",
   "assistant",
   "system",
   "tool",
   "function",
-];
+] as const;
+export type RoleType = (typeof messageRoles)[number];
 export const roleEnum = pgEnum("role", messageRoles);
 
 export const messages = createTable(

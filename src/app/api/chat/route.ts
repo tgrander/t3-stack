@@ -5,7 +5,11 @@ import { z } from "zod";
 
 import { api } from "~/trpc/server";
 import { getNanoID } from "~/utils";
-import { RequestBodySchema, ChatCompletionMessageParamSchema } from "./types";
+import {
+  RequestBodySchema,
+  ChatCompletionMessageParamSchema,
+  ChatCompletionMessageParamType,
+} from "./types";
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -20,7 +24,6 @@ export async function POST(req: NextRequest) {
   try {
     // Parse body
     const body = await req.json();
-    console.log("BODY ODY ODY ODY :>> ", body);
     const parsedBody = RequestBodySchema.parse(body);
     const { messages, personaId, chatId } = parsedBody;
 
@@ -44,26 +47,7 @@ export async function POST(req: NextRequest) {
          * @TODO send loading indicator to the client that the AI is typing
          */
         // Create a new message in the database
-        const newMessage = messages[messages.length - 1];
-        const message = ChatCompletionMessageParamSchema.parse(newMessage);
-
-        // Check if the message already exists
-        const existingMessage = await api.message.getOne.query({
-          id: message.id,
-        });
-        if (existingMessage) {
-          return;
-        }
-        // Create the message
-        await api.message.create.mutate({
-          messageId: message.id ? message.id : getNanoID(),
-          chatId: chatId,
-          personaId: personaId,
-          message: {
-            content: message.content,
-            role: message.role,
-          },
-        });
+        await createMessage({ messages, chatId, personaId });
       },
       onCompletion: async (completion: string) => {
         // Save AI response to the database
@@ -99,4 +83,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
   }
+}
+
+async function createMessage({
+  messages,
+  chatId,
+  personaId,
+}: {
+  messages: ChatCompletionMessageParamType[];
+  chatId: string;
+  personaId: string;
+}) {
+  const newMessage = messages[messages.length - 1];
+  const message = ChatCompletionMessageParamSchema.parse(newMessage);
+
+  // Check if the message already exists
+  const existingMessage = await api.message.getOne.query({
+    id: message.id,
+  });
+
+  if (existingMessage) {
+    return;
+  }
+  // Create the message
+  await api.message.create.mutate({
+    messageId: message.id ? message.id : getNanoID(),
+    chatId: chatId,
+    personaId: personaId,
+    message: {
+      content: message.content,
+      role: message.role,
+    },
+  });
 }

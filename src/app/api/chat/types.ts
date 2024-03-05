@@ -7,6 +7,10 @@ export const ChatCompletionMessageParamSchema = z.object({
   content: z.string(),
 });
 
+export type ChatCompletionMessageParamType = z.infer<
+  typeof ChatCompletionMessageParamSchema
+>;
+
 export const RequestBodySchema = z.object({
   messages: z.array(ChatCompletionMessageParamSchema),
   chatId: z.string(),

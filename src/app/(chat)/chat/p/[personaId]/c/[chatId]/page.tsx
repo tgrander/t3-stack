@@ -23,16 +23,18 @@ export default async function ChatMessagesPage({
     return notFound();
   }
 
+  if (chatId.startsWith("c-")) {
+    return <ChatMessages isNewChat={true} />;
+  }
+
   const chat = await api.chat.getOne.query({ id: chatId });
 
   if (!chat) {
     return notFound();
   }
-
   const initialMessages = getInitialMessages(chat);
-  const { reload } = ChatPageSearchParamsSchema.parse(searchParams);
 
-  return <ChatMessages initialMessages={initialMessages} reload={reload} />;
+  return <ChatMessages initialMessages={initialMessages} />;
 }
 
 type ChatQuery = Awaited<ReturnType<typeof api.chat.getOne.query>>;

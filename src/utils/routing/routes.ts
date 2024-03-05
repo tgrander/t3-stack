@@ -6,22 +6,15 @@ const values = {
   personaId: "personaId",
   chatId: "chatId",
 };
-const fragments = {
+const segments = {
   personaId: `[${values.personaId}]`,
   chatId: `[${values.chatId}]`,
 };
 
-export const personaChatRoute = `/${keys.persona}/${fragments.personaId}/${keys.chat}/${fragments.chatId}`;
-
-export const getRoute = {
-  chatMessages: ({
-    personaId,
-    chatId,
-  }: {
-    personaId: string;
-    chatId: string;
-  }) => `/p/${personaId}/c/${chatId}`,
-
-  chatWithPersona: ({ personaId }: { personaId: string }) =>
-    `/chat/p/${personaId}`,
+export const routes = {
+  chat: {
+    persona: ({ chatId, personaId }: { chatId: string; personaId: string }) => {
+      return `/chat/p/${personaId}/c/${chatId}`;
+    },
+  },
 };

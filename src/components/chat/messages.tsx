@@ -9,11 +9,11 @@ import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
 interface Props {
-  initialMessages: Message[];
-  reload?: boolean;
+  initialMessages?: Message[];
+  isNewChat?: boolean;
 }
 
-export function ChatMessages({ initialMessages, reload: shouldReload }: Props) {
+export function ChatMessages({ initialMessages, isNewChat }: Props) {
   const { personaId, chatId } = useChatPageParams();
 
   const {
@@ -23,22 +23,12 @@ export function ChatMessages({ initialMessages, reload: shouldReload }: Props) {
 
     handleInputChange,
     handleSubmit,
-
-    reload,
   } = useChat({
     id: chatId ?? undefined,
     sendExtraMessageFields: true,
-    body: { personaId, chatId },
+    body: { personaId, chatId, isNewChat },
     initialMessages: initialMessages,
   });
-
-  const hasCalledReload = useRef(false);
-
-  // useEffect(() => {
-  //   if (shouldReload && messages.length > 0 && !hasCalledReload.current) {
-  //     hasCalledReload.current = true;
-  //   }
-  // }, [reload, shouldReload]);
 
   const { textareaRef, onInput } = useExpandingTextArea();
 
