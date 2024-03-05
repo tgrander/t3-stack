@@ -2,7 +2,7 @@ import { sql, relations } from "drizzle-orm";
 import { index, varchar, timestamp, json, pgEnum } from "drizzle-orm/pg-core";
 
 import { createTable } from "../createTable";
-import { users, aiCharsOnChats, messages } from "./index";
+import { users, aiCharsOnChats, messages, tagsOnAiChars } from "./index";
 
 export const personaTypes = [
   "Inspirational Leader",
@@ -47,7 +47,6 @@ export const aiCharacters = createTable(
   }),
 );
 
-// RELATIONS
 export const aiCharactersRelations = relations(
   aiCharacters,
   ({ many, one }) => ({
@@ -57,5 +56,6 @@ export const aiCharactersRelations = relations(
       fields: [aiCharacters.createdById],
       references: [users.id],
     }),
+    tags: many(tagsOnAiChars),
   }),
 );

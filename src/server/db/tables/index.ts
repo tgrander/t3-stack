@@ -1,5 +1,8 @@
 export * from "./users";
-export * from "./messages";
 export * from "./chats";
+export * from "./messages";
 export * from "./aiCharacters";
-export * from "./aiCharsOnChatsManyToMany";
+export * from "./tags";
+
+export * from "./aiCharsOnChats";
+export * from "./tagsOnAiChars";
