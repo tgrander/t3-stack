@@ -4,7 +4,6 @@ import OpenAI from "openai";
 import { z } from "zod";
 
 import { api } from "~/trpc/server";
-import { ChatRouteParamsSchema } from "~/types";
 import { getNanoID } from "~/utils";
 import { RequestBodySchema, ChatCompletionMessageParamSchema } from "./types";
 
@@ -17,17 +16,12 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 // POST REQUEST HANDLER
-export async function POST(
-  req: NextRequest,
-  { params }: { params: z.infer<typeof ChatRouteParamsSchema> },
-) {
+export async function POST(req: NextRequest) {
   try {
-    // Parse URL parameters
-    // const url = new URL(req.url);
-    console.log("params :>> ", params);
     // Parse body
-    const body = RequestBodySchema.parse(await req.json());
-    const { messages } = body;
+    const body = await req.json();
+    const parsedBody = RequestBodySchema.parse(body);
+    const { messages, personaId, chatId } = parsedBody;
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response = await openai.chat.completions.create({
@@ -52,15 +46,15 @@ export async function POST(
         const newMessage = messages[messages.length - 1];
         const message = ChatCompletionMessageParamSchema.parse(newMessage);
 
-        // await api.message.create.mutate({
-        //   messageId: message.id ? message.id : getNanoID(),
-        //   chatId: parsedParams.chatId,
-        //   personaId: parsedParams.personaId,
-        //   message: {
-        //     content: message.content,
-        //     role: message.role,
-        //   },
-        // });
+        await api.message.create.mutate({
+          messageId: message.id ? message.id : getNanoID(),
+          chatId: chatId,
+          personaId: personaId,
+          message: {
+            content: message.content,
+            role: message.role,
+          },
+        });
       },
       onToken: async (token: string) => {
         // This callback is called for each token in the stream

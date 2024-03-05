@@ -9,7 +9,8 @@ export const ChatCompletionMessageParamSchema = z.object({
 
 export const RequestBodySchema = z.object({
   messages: z.array(ChatCompletionMessageParamSchema),
-  chatId: z.string().optional(),
+  chatId: z.string(),
+  personaId: z.string(),
 });
 
 export type RequestBodyType = z.infer<typeof RequestBodySchema>;

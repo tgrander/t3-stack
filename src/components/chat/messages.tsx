@@ -6,7 +6,6 @@ import { useChat, Message } from "ai/react";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
 import { useExpandingTextArea, useChatPageParams } from "~/hooks";
-import { getRoute } from "~/utils";
 
 interface Props {
   initialMessages: Message[];
@@ -17,10 +16,11 @@ export function ChatMessages({ initialMessages }: Props) {
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
+      id: chatId,
       sendExtraMessageFields: true,
       body: { personaId, chatId },
       initialMessages: initialMessages,
-      api: `/api` + getRoute.chatMessages({ personaId, chatId }),
+      api: `/api/chat`,
     });
 
   const { textareaRef, onInput } = useExpandingTextArea();
