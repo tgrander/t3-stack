@@ -2,6 +2,9 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse, NextRequest } from "next/server";
 import OpenAI from "openai";
 import { z } from "zod";
+import { db } from "~/server/db";
+import { chats } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
 
 import { api } from "~/trpc/server";
 import { getNanoID } from "~/utils";
@@ -46,8 +49,22 @@ export async function POST(req: NextRequest) {
         /**
          * @TODO send loading indicator to the client that the AI is typing
          */
+        const newMessage = messages[messages.length - 1];
+        const message = ChatCompletionMessageParamSchema.parse(newMessage);
+
         // Create a new message in the database
-        await createMessage({ messages, chatId, personaId });
+        const chat = await getChat(chatId);
+        if (!chat) {
+          // Create a new chat
+          await api.chat.create.mutate({
+            id: chatId,
+            personaId,
+            message,
+          });
+        } else {
+          // Add new message to the chat
+          await createMessage({ messages, chatId, personaId });
+        }
       },
       onCompletion: async (completion: string) => {
         // Save AI response to the database
@@ -83,6 +100,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
   }
+}
+
+async function getChat(chatId: string) {
+  const chat = await db.query.chats.findFirst({
+    where: eq(chats.id, chatId),
+    columns: {
+      id: true,
+    },
+  });
+  return chat;
 }
 
 async function createMessage({

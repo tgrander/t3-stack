@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test_ai_character" ADD COLUMN "system_prompt" varchar(1000);

@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs";
 export const create = publicProcedure
   .input(
     z.object({
+      id: z.string().optional(),
       personaId: z.string(),
       message: z.object({
         content: z.string().min(1),
@@ -22,7 +23,7 @@ export const create = publicProcedure
       const newChat = await db
         .insert(chats)
         .values({
-          id: getNanoID(),
+          id: input.id ? input.id : getNanoID(),
           userId,
           guestSessionId,
         })

@@ -201,6 +201,7 @@ export const aiCharacters = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at"),
+    systemPrompt: varchar("system_prompt", { length: 3000 }),
   },
   (example) => ({
     aiIndex: index("ai_idx").on(example.id), // For faster lookups

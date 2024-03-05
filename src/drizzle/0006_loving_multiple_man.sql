@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test_ai_character" ALTER COLUMN "system_prompt" SET DATA TYPE varchar(3000);
