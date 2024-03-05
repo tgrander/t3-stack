@@ -14,6 +14,7 @@ const userIdInDB = "17cf317f-1c7f-44b1-8421-b8b41328c376";
 async function main() {
   console.log("Seeding started 🚀");
   await insertTags();
+  console.log("Seeding complete 🌱");
   process.exit(0);
 }
 
@@ -183,9 +184,7 @@ async function insertLuckyDuckUser() {
 }
 
 main()
-  .then(() => {
-    console.log("Seeding complete 🌱");
-  })
+  .then()
   .catch((err) => {
     console.error(err);
     process.exit(0);
