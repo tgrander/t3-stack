@@ -12,10 +12,7 @@ import { shakespeare as shakespeareSystemPrompt } from "~/constants/prompts";
 
 export const runtime = "edge";
 
-export default async function ChatMessagesPage({
-  params,
-  searchParams,
-}: {
+export default async function ChatMessagesPage(props: {
   params: ChatPageParamsType;
   searchParams: ChatPageSearchParamsType;
 }) {
@@ -48,8 +45,6 @@ export default async function ChatMessagesPage({
     </ChatMessages>
   );
 }
-
-type ChatQuery = Awaited<ReturnType<typeof api.chat.getOne.query>>;
 
 async function Reader({
   reader,
