@@ -11,3 +11,14 @@ export const ChatPageParamsSchema = z.object({
 });
 
 export type ChatPageParamsType = z.infer<typeof ChatPageParamsSchema>;
+
+export const ChatPageSearchParamsSchema = z.object({
+  reload: z
+    .string()
+    .optional()
+    .transform((v) => (v === "true" ? true : false)),
+});
+
+export type ChatPageSearchParamsType = z.infer<
+  typeof ChatPageSearchParamsSchema
+>;

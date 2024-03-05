@@ -20,7 +20,7 @@ export default function NewChatPage() {
 
   const createChat = api.chat.create.useMutation({
     onSuccess: (chatId) => {
-      router.push(`/chat/p/${personaId}/c/${chatId}`);
+      router.push(`/chat/p/${personaId}/c/${chatId}?reload=true`);
     },
   });
 

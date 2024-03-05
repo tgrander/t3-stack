@@ -3,14 +3,20 @@ import "server-only";
 import { Message } from "ai/react";
 import { notFound } from "next/navigation";
 
-import { ChatPageParamsType } from "~/types";
+import {
+  ChatPageParamsType,
+  ChatPageSearchParamsSchema,
+  ChatPageSearchParamsType,
+} from "~/types";
 import { ChatMessages } from "~/components/chat";
 import { api } from "~/trpc/server";
 
 export default async function ChatMessagesPage({
   params,
+  searchParams,
 }: {
   params: ChatPageParamsType;
+  searchParams: ChatPageSearchParamsType;
 }) {
   const { chatId } = params;
   if (!chatId) {
@@ -24,8 +30,9 @@ export default async function ChatMessagesPage({
   }
 
   const initialMessages = getInitialMessages(chat);
+  const { reload } = ChatPageSearchParamsSchema.parse(searchParams);
 
-  return <ChatMessages initialMessages={initialMessages} />;
+  return <ChatMessages initialMessages={initialMessages} reload={reload} />;
 }
 
 type ChatQuery = Awaited<ReturnType<typeof api.chat.getOne.query>>;

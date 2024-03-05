@@ -9,9 +9,10 @@ import { useExpandingTextArea, useChatPageParams } from "~/hooks";
 
 interface Props {
   initialMessages: Message[];
+  reload?: boolean;
 }
 
-export function ChatMessages({ initialMessages }: Props) {
+export function ChatMessages({ initialMessages, reload }: Props) {
   const { personaId, chatId } = useChatPageParams();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
