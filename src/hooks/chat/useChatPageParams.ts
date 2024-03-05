@@ -1,11 +1,11 @@
 import { useParams } from "next/navigation";
 import { z } from "zod";
-import { ChatPageParamsSchema } from "~/types";
+import { ChatRouteParamsSchema } from "~/types";
 
-type ChatPageParams = z.infer<typeof ChatPageParamsSchema>;
+type Params = z.infer<typeof ChatRouteParamsSchema>;
 
-export const useChatPageParams = (): ChatPageParams => {
+export const useChatPageParams = (): Params => {
   const params = useParams();
-  const parse = ChatPageParamsSchema.parse(params);
-  return parse;
+  const parsed = ChatRouteParamsSchema.parse(params);
+  return parsed;
 };

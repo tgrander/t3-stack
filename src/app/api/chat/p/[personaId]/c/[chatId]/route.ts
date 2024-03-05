@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse, NextRequest } from "next/server";
 import OpenAI from "openai";
@@ -8,14 +7,6 @@ import { api } from "~/trpc/server";
 import { ChatRouteParamsSchema } from "~/types";
 import { getNanoID } from "~/utils";
 import { RequestBodySchema, ChatCompletionMessageParamSchema } from "./types";
-
-type ChatCompletionMessageParamTypes = z.infer<
-  typeof ChatCompletionMessageParamSchema
->;
-
-const getLastMessage = (messages: ChatCompletionMessageParamTypes[]) => {
-  return messages[messages.length - 1];
-};
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -31,17 +22,24 @@ export async function POST(
   { params }: { params: z.infer<typeof ChatRouteParamsSchema> },
 ) {
   try {
-    const parsedParams = ChatRouteParamsSchema.parse(params);
+    // Parse URL parameters
+    // const url = new URL(req.url);
+    console.log("params :>> ", params);
+    // Parse body
     const body = RequestBodySchema.parse(await req.json());
-
     const { messages } = body;
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       stream: true,
-      messages:
-        messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+      messages: messages.map(
+        (m) =>
+          ({
+            role: m.role,
+            content: m.content,
+          }) as OpenAI.Chat.Completions.ChatCompletionMessageParam,
+      ),
     });
 
     // Convert the response into a friendly text-stream
@@ -50,20 +48,19 @@ export async function POST(
         /**
          * @TODO send loading indicator to the client that the AI is typing
          */
-
         // Create a new message in the database
         const newMessage = messages[messages.length - 1];
         const message = ChatCompletionMessageParamSchema.parse(newMessage);
 
-        await api.message.create.mutate({
-          messageId: message.id ? message.id : getNanoID(),
-          chatId: parsedParams.chatId,
-          personaId: parsedParams.personaId,
-          message: {
-            content: message.content,
-            role: message.role,
-          },
-        });
+        // await api.message.create.mutate({
+        //   messageId: message.id ? message.id : getNanoID(),
+        //   chatId: parsedParams.chatId,
+        //   personaId: parsedParams.personaId,
+        //   message: {
+        //     content: message.content,
+        //     role: message.role,
+        //   },
+        // });
       },
       onToken: async (token: string) => {
         // This callback is called for each token in the stream
@@ -81,9 +78,19 @@ export async function POST(
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       const { name, status, headers, message } = error;
-      return NextResponse.json({ name, status, headers, message }, { status });
+      return NextResponse.json(
+        {
+          code: "OPENAI_ERROR_CHAT_COMPLETIONS_CREATE",
+          name,
+          status,
+          headers,
+          message,
+        },
+        { status },
+      );
+    } else if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors }, { status: 400 });
     } else {
-      console.error(error);
       return NextResponse.json({ error }, { status: 500 });
     }
   }
