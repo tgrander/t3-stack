@@ -1,6 +1,7 @@
 import { chatRouter } from "~/server/api/routers/chat";
 import { userRouter } from "~/server/api/routers/user";
 import { personaRouter } from "~/server/api/routers/persona";
+import { messageRouter } from "~/server/api/routers/message";
 import { createTRPCRouter, createTRPCCallerFactory } from "~/server/api/trpc";
 
 /**
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   chat: chatRouter,
   user: userRouter,
   persona: personaRouter,
+  message: messageRouter,
 });
 
 /**

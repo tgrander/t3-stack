@@ -1,20 +1,8 @@
 import { z } from "zod";
 import { publicProcedure } from "~/server/api/trpc";
 import { messages, chats, messageRoles } from "~/server/db/schema";
-import { getNanoID } from "~/utils";
+import { getNanoID, getCookieValue } from "~/utils";
 import { auth } from "@clerk/nextjs";
-
-function getCookieValue(headers: Headers, cookieName: string): string | null {
-  const cookies = headers.get("cookie");
-  if (!cookies) return null;
-
-  const cookieValue = cookies
-    .split(";")
-    .map((cookie) => cookie.trim().split("="))
-    .find(([name]) => name === cookieName)?.[1];
-
-  return cookieValue ? decodeURIComponent(cookieValue) : null;
-}
 
 export const create = publicProcedure
   .input(

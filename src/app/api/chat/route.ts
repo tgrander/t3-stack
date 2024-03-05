@@ -1,12 +1,13 @@
-import OpenAI from "openai";
+import { auth } from "@clerk/nextjs";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse, NextRequest } from "next/server";
+import OpenAI from "openai";
 import { z } from "zod";
-import { auth } from "@clerk/nextjs";
 
-// import { caller } from "~/trpc/server";
+import { api } from "~/trpc/server";
+import { ChatRouteParamsSchema } from "~/types";
+import { getNanoID } from "~/utils";
 import { RequestBodySchema, ChatCompletionMessageParamSchema } from "./types";
-import { createNewChat } from "./createNewChat";
 
 type ChatCompletionMessageParamTypes = z.infer<
   typeof ChatCompletionMessageParamSchema
@@ -25,20 +26,22 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 // POST REQUEST HANDLER
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: z.infer<typeof ChatRouteParamsSchema> },
+) {
   try {
+    const parsedParams = ChatRouteParamsSchema.parse(params);
     const body = RequestBodySchema.parse(await req.json());
 
-    if (!body.chatId) {
-      return await createNewChat({ req, body });
-    }
+    const { messages } = body;
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       stream: true,
       messages:
-        body.messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+        messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
     });
 
     // Convert the response into a friendly text-stream
@@ -47,6 +50,20 @@ export async function POST(req: NextRequest) {
         /**
          * @TODO send loading indicator to the client that the AI is typing
          */
+
+        // Create a new message in the database
+        const newMessage = messages[messages.length - 1];
+        const message = ChatCompletionMessageParamSchema.parse(newMessage);
+
+        await api.message.create.mutate({
+          messageId: message.id ? message.id : getNanoID(),
+          chatId: parsedParams.chatId,
+          personaId: parsedParams.personaId,
+          message: {
+            content: message.content,
+            role: message.role,
+          },
+        });
       },
       onToken: async (token: string) => {
         // This callback is called for each token in the stream

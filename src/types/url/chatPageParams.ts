@@ -10,4 +10,9 @@ export const ChatPageParamsSchema = z.object({
   personaId: NumberUrlParamSchema,
 });
 
+export const ChatRouteParamsSchema = z.object({
+  chatId: z.string(),
+  personaId: z.string(),
+});
+
 export type ChatPageParamsType = z.infer<typeof ChatPageParamsSchema>;
