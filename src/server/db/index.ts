@@ -2,8 +2,8 @@ import * as schema from "./schema";
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
 
-import { users, aiCharacters } from "./schema";
-import { NewUser, NewPersona } from "./types";
+import { NewUser, NewPersona, NewTag } from "./types";
+import { users, aiCharacters, tags } from "./schema";
 
 export const db = drizzle(sql, { schema });
 
@@ -13,4 +13,8 @@ export const insertUser = async (user: NewUser) => {
 
 export const insertPersona = async (persona: NewPersona) => {
   return await db.insert(aiCharacters).values(persona).returning();
+};
+
+export const insertTag = async (tag: NewTag) => {
+  return await db.insert(tags).values(tag).returning();
 };

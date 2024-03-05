@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 import { customAlphabet } from "nanoid";
 import { v4 as uuid } from "uuid";
+import { z } from "zod";
 
-import { insertPersona, insertUser } from "./index";
-import { NewPersona, NewUser } from "./types";
+import { insertPersona, insertUser, insertTag } from "./index";
+import { NewPersona, NewUser, NewTag } from "./types";
 
 dotenv.config({ path: "./.env.local" });
 
@@ -12,8 +13,49 @@ const userIdInDB = "17cf317f-1c7f-44b1-8421-b8b41328c376";
 
 async function main() {
   console.log("Seeding started 🚀");
-
+  await insertTags();
   process.exit(0);
+}
+
+const tags = [
+  "AI",
+  "tech",
+  "thriller",
+  "dystopia",
+  "future",
+  "doom",
+  "AGI",
+  "AI Safety",
+  "AI Apocalypse",
+];
+
+const TagSchema = z
+  .string()
+  .min(1)
+  .max(75)
+  .regex(/^[a-zA-Z0-9\s]+$/, "Only numbers, letters, and spaces are allowed")
+  .regex(/^\S.*\S$/, "String must not consist of only spaces")
+  .transform((val) => val.toLowerCase().trim());
+
+async function insertTags() {
+  console.log("Inserting tags");
+
+  const insertTags = tags
+    .filter((tag) => TagSchema.safeParse(tag).success)
+    .map((tag) => TagSchema.parse(tag))
+    .map(
+      (tag) =>
+        ({
+          id: nanoid(5),
+          name: tag,
+          createdById: userIdInDB,
+        }) as NewTag,
+    )
+    .map((tag) => insertTag(tag));
+
+  const tagRecords = await Promise.all(insertTags);
+
+  console.log("Success creating tags!", tagRecords);
 }
 
 async function insertJaxTheGlitchPersona() {
@@ -123,8 +165,6 @@ async function insertBoringPersonas() {
   const newPersonas = await Promise.all(personas.map((p) => insertPersona(p)));
 
   console.log("Success creating AI personas!", newPersonas);
-
-  console.log("Seeding finished! ✅");
 }
 async function insertLuckyDuckUser() {
   const userId = uuid();
@@ -143,7 +183,9 @@ async function insertLuckyDuckUser() {
 }
 
 main()
-  .then()
+  .then(() => {
+    console.log("Seeding complete 🌱");
+  })
   .catch((err) => {
     console.error(err);
     process.exit(0);
