@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { CldImage, CldImageProps } from "next-cloudinary";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui";
 import { routes } from "~/utils";
 import { PersonaSchemaType } from "~/schema";
-import { cn, getNanoID } from "~/utils";
+import { cn, getNanoID, getPersonasCrop } from "~/utils";
 import { useChatPageParams } from "~/hooks";
 
 type Props = {
@@ -36,7 +37,16 @@ export function SidebarItem({ persona }: Props) {
         )}
       >
         <Avatar className="h-9 w-9">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <CldImage
+            alt="image"
+            className={cn("m-0 h-full w-full bg-transparent object-cover p-0")}
+            width="36"
+            height="36"
+            crop={getPersonasCrop({ persona, type: "thumb" })}
+            src={persona.cloudinaryPublicId as string}
+            style={{ objectFit: "cover" }}
+          />
+
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <span>{persona.name}</span>

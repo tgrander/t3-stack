@@ -1,6 +1,6 @@
 "use client";
 
-import { CldImage, CldImageProps } from "next-cloudinary";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 
 import { Card, CardFooter } from "~/ui/card";
@@ -29,7 +29,7 @@ export function PersonaCard({ persona: p }: Props) {
               )}
               width="300"
               height="300"
-              crop={getPersonasCrop(p)}
+              crop={getPersonasCrop({ persona: p, type: "crop" })}
               src={p.cloudinaryPublicId as string}
               style={{ objectFit: "cover" }}
             />
