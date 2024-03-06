@@ -1,33 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { CldImage, CldImageProps } from "next-cloudinary";
+import { CldImage } from "next-cloudinary";
 
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui";
-import { routes } from "~/utils";
+import { Avatar, AvatarFallback } from "~/components/ui";
 import { PersonaSchemaType } from "~/schema";
-import { cn, getNanoID, getPersonasCrop } from "~/utils";
+import { cn, getPersonasCrop, getPersonaChatHref } from "~/utils";
 import { useChatPageParams } from "~/hooks";
 
 type Props = {
   persona: PersonaSchemaType;
 };
 
-const getTempChatId = () => {
-  return "c-" + getNanoID();
-};
-
 export function SidebarItem({ persona }: Props) {
   const { personaId } = useChatPageParams();
 
   return (
-    <Link
-      href={routes.chat.persona({
-        personaId: persona.id,
-        chatId: getTempChatId(),
-      })}
-    >
-      {/* <Button variant="ghost" className="h-fit w-full px-2 py-2"> */}
+    <Link href={getPersonaChatHref({ personaId: persona.id })}>
       <span
         className={cn(
           "group flex w-full items-center space-x-3 rounded-md border border-transparent px-2 py-1 text-foreground hover:bg-muted hover:text-foreground",
