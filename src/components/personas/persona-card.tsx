@@ -78,11 +78,13 @@ function getCrop(p: PersonaType): CldImageProps["crop"] {
   switch (true) {
     case name.includes("kahlo"):
       return getCropValues();
+    case name.includes("empath"):
+      return getCropValues();
     case name.includes("shakespeare"):
       return getCropValues();
     case name.includes("dave"):
       return getCropValues();
-    case name.includes("robin williams"):
+    case name.includes("williams"):
       return getCropValues();
     default:
       return undefined;
