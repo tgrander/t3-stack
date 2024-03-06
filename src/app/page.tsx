@@ -1,7 +1,11 @@
-// import { redirect } from "next/navigation";
-// import { routes } from "~/utils";
+import { api } from "~/trpc/server";
 
 export default async function IndexPage() {
-  // redirect(routes.newPersonaChat({ personaId: "123abc" }));
-  return null;
+  const personas = (await api.persona.getAll.query()) ?? [];
+
+  return (
+    <div className="flex h-screen flex-1 items-center justify-center">
+      <div>hello world</div>
+    </div>
+  );
 }
