@@ -21,9 +21,9 @@ export function MessagesHeader({ personas }: Props) {
   }
 
   return (
-    <Card className="flex h-20 px-4">
+    <Card className="flex h-24 px-4">
       <CardContent className="flex items-center space-x-4 p-0">
-        <Avatar className=" h-12 w-12">
+        <Avatar className=" h-16 w-16">
           <CldImage
             alt="image"
             className={cn("m-0 h-full w-full bg-transparent object-cover p-0")}

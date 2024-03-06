@@ -9,7 +9,7 @@ interface Props {
 export const SidebarNav: React.FC<Props> = ({ items }) => {
   return (
     <Card className="flex flex-1 flex-col">
-      <CardContent className="p-4">
+      <CardContent className="p-2">
         <ul role="list" className="space-y-1">
           {items.map((p) => (
             <li key={p.id}>

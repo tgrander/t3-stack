@@ -6,7 +6,7 @@ import { z } from "zod";
 import { api } from "~/trpc/server";
 import { ChatPageParamsSchema } from "~/types";
 import { SidebarNav, MessagesHeader } from "~/components/chat";
-import { Card, CardTitle, CardHeader } from "~/components/ui/card";
+import { cn } from "~/utils";
 
 export default async function ChatLayout({
   children,
@@ -19,8 +19,13 @@ export default async function ChatLayout({
 
   return (
     <div className="flex min-h-screen">
-      <div className="hidden space-y-1 py-2 pl-2 md:fixed md:inset-y-0 md:z-50 md:flex md:w-72 md:flex-col">
-        <SidebarHeader />
+      <div
+        className={cn(
+          "hidden",
+          "md:fixed md:inset-y-0 md:z-50 md:flex md:w-72 md:flex-col",
+          "space-y-1 py-2 pl-2",
+        )}
+      >
         <SidebarNav items={personas} />
       </div>
       <div className="flex flex-1 md:pl-72">
@@ -33,15 +38,5 @@ export default async function ChatLayout({
         </div>
       </div>
     </div>
-  );
-}
-
-function SidebarHeader() {
-  return (
-    <Card className="flex h-20">
-      <CardHeader>
-        <CardTitle className=" text-lg">Personas</CardTitle>
-      </CardHeader>
-    </Card>
   );
 }
