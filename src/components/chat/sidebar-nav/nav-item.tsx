@@ -35,7 +35,6 @@ export function SidebarItem({ persona }: Props) {
             src={persona.cloudinaryPublicId as string}
             style={{ objectFit: "cover" }}
           />
-
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <span>{persona.name}</span>
