@@ -87,7 +87,7 @@ export const aiCharacters = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at"),
-    systemPrompt: varchar("system_prompt", { length: 3000 }),
+    systemPrompt: varchar("system_prompt", { length: 6000 }),
     greeting: varchar("greeting", { length: 1000 }),
   },
   (example) => ({

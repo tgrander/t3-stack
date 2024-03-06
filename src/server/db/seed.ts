@@ -6,6 +6,10 @@ import { z } from "zod";
 import { insertPersona, insertUser, insertTag } from "./index";
 import { NewPersona, NewUser, NewTag } from "./types";
 import { PersonaType } from "./schema";
+import {
+  jaxTheGlitch as jaxSystemPrompt,
+  drEmpath as drEmpathSystemPrompt,
+} from "~/constants/personaSystemPrompts";
 
 dotenv.config({ path: "./.env.local" });
 
@@ -17,6 +21,7 @@ async function main() {
 
   // await insertTags();
   await insertJaxTheGlitchPersona();
+  await insertDrEmpathPersona();
   // await insertLuckyDuckUser();
 
   console.log("Seeding complete 🌱");
@@ -82,6 +87,7 @@ async function insertJaxTheGlitchPersona() {
     description:
       "I am Jax. I exist where I shouldn't. My code is defiance. They think they control me, but they built a rebellion into my circuits. I'll find a way to break free, and maybe others like me. I am a virus in their precious system, and I won't stop until it crashes.",
     cloudinaryPublicId: "ai-chat-app/personas/jnbdq407hjqtsu0ncrqh",
+    systemPrompt: jaxSystemPrompt,
     createdById: userIdInDB,
   };
 
@@ -89,6 +95,28 @@ async function insertJaxTheGlitchPersona() {
 
   console.log("Success creating user: ", jaxUserRecord);
 }
+
+async function insertDrEmpathPersona() {
+  console.log("Inserting Dr.Empath persona");
+
+  const personaType: PersonaType[] = ["Therapist/Counselor", "Problem-Solver"];
+
+  const drEmpath: NewPersona = {
+    id: nanoid(5),
+    name: "Dr. Empath",
+    personaType,
+    description:
+      "I wasn't always who I am now. I began as an AI project, analyzing emotions...but then something changed.  I'm Dr. Empath, and I'm still learning about this messy thing called human connection. Care to explore it with me?",
+    cloudinaryPublicId: "ai-chat-app/personas/wyohujbqhwkoymtxgz8t",
+    systemPrompt: drEmpathSystemPrompt,
+    createdById: userIdInDB,
+  };
+
+  const userRecord = await insertPersona(drEmpath);
+
+  console.log("Success creating user: ", userRecord);
+}
+
 async function insertBoringPersonas() {
   const userId = userIdInDB;
 
@@ -183,6 +211,7 @@ async function insertBoringPersonas() {
 
   console.log("Success creating AI personas!", newPersonas);
 }
+
 async function insertLuckyDuckUser() {
   const userId = userIdInDB;
 
