@@ -31,12 +31,10 @@ export function PersonaCard({ persona: p }: Props) {
             style={{ objectFit: "cover" }}
           />
         </div>
-        <CardFooter className="color-inherit border-1 shadow-small z-10 mx-2 mb-2 flex h-auto items-center justify-start overflow-hidden rounded-xl border border-white/15 bg-background/10 px-4 py-3 subpixel-antialiased backdrop-blur backdrop-saturate-150 before:rounded-xl before:bg-white/10">
+        <CardFooter className="color-inherit border-1 shadow-small z-10 mx-2 mb-2 flex h-auto items-center justify-start overflow-hidden rounded-xl border border-white/15 bg-background/10 px-4 py-3 subpixel-antialiased backdrop-blur-sm backdrop-saturate-150 before:rounded-xl before:bg-white/10">
           <p className="text-tiny text-white/80">{p.name}</p>
         </CardFooter>
       </div>
     </Card>
   );
 }
-
-("p-3 h-auto flex items-center color-inherit subpixel-antialiased bg-background/10 backdrop-blur backdrop-saturate-150 justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10");
