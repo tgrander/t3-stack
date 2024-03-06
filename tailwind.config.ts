@@ -10,6 +10,11 @@ const config = {
     "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
+  variants: {
+    extend: {
+      shadow: ["hover"],
+    },
+  },
   theme: {
     container: {
       center: true,
