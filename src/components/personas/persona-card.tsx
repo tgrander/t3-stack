@@ -16,8 +16,11 @@ interface Props {
 
 export function PersonaCard({ persona: p }: Props) {
   return (
-    <Card key={p.id} className="relative mx-2 h-72 w-72">
-      <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
+    <Card
+      key={p.id}
+      className="relative mx-2 h-72 w-72 overflow-hidden rounded-2xl"
+    >
+      <div className="absolute left-0 top-0 h-full w-full">
         <CldImage
           alt="image"
           className={cn("m-0 h-full w-full object-cover p-0")}
