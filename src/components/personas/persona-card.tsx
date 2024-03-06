@@ -16,14 +16,17 @@ interface Props {
 
 export function PersonaCard({ persona: p }: Props) {
   return (
-    <Card key={p.id} className="mx-2 h-72 w-72">
-      <CldImage
-        alt="image"
-        className={cn("h-full w-full scale-[1.15] object-cover")}
-        width="1000"
-        height="1000"
-        src={p.cloudinaryPublicId ?? ""}
-      />
+    <Card key={p.id} className="relative mx-2 h-72 w-72">
+      <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
+        <CldImage
+          alt="image"
+          className={cn("m-0 h-full w-full object-cover p-0")}
+          width="300"
+          height="300"
+          src={p.cloudinaryPublicId ?? ""}
+          style={{ objectFit: "cover" }}
+        />
+      </div>
     </Card>
   );
 }
