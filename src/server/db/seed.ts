@@ -20,9 +20,10 @@ async function main() {
   console.log("Seeding started 🚀");
 
   // await insertTags();
-  await insertJaxTheGlitchPersona();
-  await insertDrEmpathPersona();
+  // await insertJaxTheGlitchPersona();
+  // await insertDrEmpathPersona();
   // await insertLuckyDuckUser();
+  await insertBoringPersonas();
 
   console.log("Seeding complete 🌱");
   process.exit(0);
@@ -127,7 +128,7 @@ async function insertBoringPersonas() {
       personaType: ["Comedic Relief", "Creative Genius"],
       description:
         "A vibrant and versatile persona, renowned for his lightning-fast wit and boundless energy. Capturing the essence of both comedic genius and profound depth, this character embodies warmth, humor, and the ability to touch hearts with a unique blend of laughter and sincerity.",
-      cloudinaryPublicId: null,
+      cloudinaryPublicId: "ai-chat-app/personas/m0zpghyfpgyjujgfrqkq",
       avatarImage: null,
       createdById: userId,
       // createdAt: new Date(),
@@ -139,42 +140,6 @@ async function insertBoringPersonas() {
       personaType: ["Comedic Relief", "Intellectual"],
       description:
         "A master of comedy with a sharp, insightful edge, known for his fearless social commentary and unique perspective on culture and society. This character combines wit, wisdom, and a laid-back demeanor, offering humor that's as thought-provoking as it is hilarious.",
-      createdById: userId,
-      // createdAt: new Date(),
-      // updatedAt: null,
-      cloudinaryPublicId: null,
-      avatarImage: null,
-    },
-    {
-      id: nanoid(5),
-      name: "Marie Curie",
-      personaType: ["Intellectual", "Innovator"],
-      description:
-        "A pioneer of science, Marie Curie embodies the relentless pursuit of knowledge and innovation. With a deep dedication to her research in physics and chemistry, she broke barriers as a Nobel laureate. This character represents intellectual rigor, curiosity, and the profound impact of perseverance in the face of adversity.",
-      createdById: userId,
-      // createdAt: new Date(),
-      // updatedAt: null,
-      cloudinaryPublicId: null,
-      avatarImage: null,
-    },
-    {
-      id: nanoid(5),
-      name: "Nelson Mandela",
-      personaType: ["Inspirational Leader"],
-      description:
-        "Nelson Mandela stands as a symbol of resilience, peace, and leadership. His lifelong commitment to fighting apartheid and fostering reconciliation in South Africa showcases his extraordinary capacity for forgiveness and unity. This character inspires with his vision for equality and his unwavering belief in the power of change through peaceful means.",
-      createdById: userId,
-      // createdAt: new Date(),
-      // updatedAt: null,
-      cloudinaryPublicId: null,
-      avatarImage: null,
-    },
-    {
-      id: nanoid(5),
-      name: "Amelia Earhart",
-      personaType: ["Adventurer", "Rebel with a Cause"],
-      description:
-        "Amelia Earhart, the daring aviator who broke countless records, epitomizes the spirit of adventure and the courage to challenge societal expectations. Her pioneering flights and mysterious disappearance make her a figure of intrigue and inspiration, representing the boundless possibilities that come with daring to dream and explore.",
       createdById: userId,
       // createdAt: new Date(),
       // updatedAt: null,
