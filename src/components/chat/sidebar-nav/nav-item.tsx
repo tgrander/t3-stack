@@ -34,6 +34,7 @@ export function SidebarItem({ persona }: Props) {
             crop={getPersonasCrop({ persona, type: "thumb" })}
             src={persona.cloudinaryPublicId as string}
             style={{ objectFit: "cover" }}
+            brightness={20}
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
