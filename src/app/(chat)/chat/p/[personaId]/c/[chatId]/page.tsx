@@ -10,10 +10,12 @@ import { ChatPageParamsType, ChatPageSearchParamsType } from "~/types";
 
 export const runtime = "edge";
 
-export default async function ChatMessagesPage(props: {
+interface Props {
   params: ChatPageParamsType;
   searchParams: ChatPageSearchParamsType;
-}) {
+}
+
+const ChatMessagesPage: React.FC<Props> = async () => {
   /**
    * OPENAI STREAMING
    */
@@ -42,7 +44,7 @@ export default async function ChatMessagesPage(props: {
       </Suspense>
     </ChatMessages>
   );
-}
+};
 
 async function Reader({
   reader,
@@ -77,3 +79,5 @@ async function Reader({
 //     content: m.message,
 //   }));
 // }
+
+export default ChatMessagesPage;
