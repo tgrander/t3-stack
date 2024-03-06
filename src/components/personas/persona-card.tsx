@@ -4,17 +4,11 @@ import { CldImage, CldImageProps } from "next-cloudinary";
 import Link from "next/link";
 
 import { Card, CardFooter } from "~/ui/card";
-import { cn } from "~/utils";
-import { api } from "~/trpc/server";
-import { getPersonaChatHref, getNanoID } from "~/utils";
-
-type PersonaType =
-  ReturnType<typeof api.persona.getAll.query> extends Promise<Array<infer T>>
-    ? T
-    : never;
+import { PersonaQueryType } from "~/trpc/types";
+import { getPersonaChatHref, cn, getPersonasCrop } from "~/utils";
 
 interface Props {
-  persona: PersonaType;
+  persona: PersonaQueryType;
 }
 
 export function PersonaCard({ persona: p }: Props) {
@@ -35,7 +29,7 @@ export function PersonaCard({ persona: p }: Props) {
               )}
               width="300"
               height="300"
-              crop={getCrop(p)}
+              crop={getPersonasCrop(p)}
               src={p.cloudinaryPublicId as string}
               style={{ objectFit: "cover" }}
             />
@@ -56,37 +50,4 @@ export function PersonaCard({ persona: p }: Props) {
       </Card>
     </Link>
   );
-}
-
-type CropParams = {
-  w?: number;
-  h?: number;
-};
-
-function getCropValues({ w, h }: CropParams = {}): CldImageProps["crop"] {
-  return {
-    type: "crop",
-    gravity: "face",
-    width: w,
-    height: h,
-  };
-}
-
-function getCrop(p: PersonaType): CldImageProps["crop"] {
-  const name = p.name.toLowerCase();
-
-  switch (true) {
-    case name.includes("kahlo"):
-      return getCropValues();
-    case name.includes("empath"):
-      return getCropValues();
-    case name.includes("shakespeare"):
-      return getCropValues();
-    case name.includes("dave"):
-      return getCropValues();
-    case name.includes("williams"):
-      return getCropValues();
-    default:
-      return undefined;
-  }
 }
