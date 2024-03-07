@@ -6,8 +6,8 @@ export const NumberUrlParamSchema = z
   .optional(); // Marks the field as optional
 
 export const ChatPageParamsSchema = z.object({
-  chatId: NumberUrlParamSchema,
-  personaId: NumberUrlParamSchema,
+  chatId: z.string(),
+  personaId: z.string(),
 });
 
 export type ChatPageParamsType = z.infer<typeof ChatPageParamsSchema>;

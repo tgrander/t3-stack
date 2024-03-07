@@ -6,7 +6,12 @@ import { Suspense } from "react";
 
 import { ChatMessages } from "~/components/chat";
 import { shakespeare as shakespeareSystemPrompt } from "~/constants/prompts";
-import { ChatPageParamsType, ChatPageSearchParamsType } from "~/types";
+import {
+  ChatPageParamsType,
+  ChatPageSearchParamsType,
+  ChatPageParamsSchema,
+} from "~/types";
+import { api } from "~/trpc/server";
 
 export const runtime = "edge";
 
@@ -15,13 +20,18 @@ interface Props {
   searchParams: ChatPageSearchParamsType;
 }
 
-const ChatMessagesPage: React.FC<Props> = async () => {
+const ChatMessagesPage: React.FC<Props> = async (props) => {
   /**
-   * OPENAI STREAMING
+   * STREAM PERSONA INTRO MESSAGE
+   * Query OpenAI's GPT-4 model for a response to the system prompt
    */
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY!,
   });
+
+  const params = ChatPageParamsSchema.parse(props.params);
+
+  const persona = await api.persona.getOne.query({ id: params.personaId });
 
   const response = await openai.chat.completions.create({
     model: "gpt-4",
@@ -29,7 +39,7 @@ const ChatMessagesPage: React.FC<Props> = async () => {
     messages: [
       {
         role: "system",
-        content: shakespeareSystemPrompt,
+        content: persona?.systemPrompt || shakespeareSystemPrompt,
       },
     ],
   });

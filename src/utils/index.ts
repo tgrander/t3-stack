@@ -3,3 +3,4 @@ export * from "./routing";
 export * from "./id";
 export * from "./api";
 export * from "./cloudinary";
+export * from "./persona";

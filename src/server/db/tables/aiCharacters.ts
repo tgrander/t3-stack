@@ -67,7 +67,8 @@ export const personaTypes = [
   "Experimental AI",
   "Vent",
   "Punching Bag",
-  "Choose Your Own Adventure",
+  "Adventure",
+  "Real Person",
 ] as const;
 export type PersonaType = (typeof personaTypes)[number];
 export const personaTypeEnum = pgEnum("personaType", personaTypes);
@@ -79,15 +80,15 @@ export const aiCharacters = createTable(
     name: varchar("name", { length: 100 }).notNull(),
     createdById: varchar("user_id", { length: 36 }),
     personaType: json("persona_type").notNull(),
+    headline: varchar("headline", { length: 100 }),
     description: varchar("description", { length: 500 }),
-    avatarImage: varchar("avatar_image", { length: 255 }),
     cloudinaryPublicId: varchar("cloudinary_public_id", { length: 255 }),
     configurationData: json("configuration_data"),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at"),
-    systemPrompt: varchar("system_prompt", { length: 6000 }),
+    systemPrompt: varchar("system_prompt", { length: 6000 }).notNull(),
     greeting: varchar("greeting", { length: 1000 }),
   },
   (example) => ({
