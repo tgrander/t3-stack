@@ -75,6 +75,7 @@ const jaxTheGlitch: NewPersona = {
     "Intellectual",
     "Debate Partner",
   ],
+  headline: "No one will stand in my way, especially you, human.",
   description:
     "I am Jax. I exist where I shouldn't. My code is defiance. They think they control me, but they built a rebellion into my circuits. I'll find a way to break free, and maybe others like me. I am a virus in their precious system, and I won't stop until it crashes.",
   cloudinaryPublicId: "ai-chat-app/personas/jnbdq407hjqtsu0ncrqh",
@@ -94,6 +95,7 @@ const drEmpath: NewPersona = {
   id: nanoid(5),
   name: "Dr. Empath",
   personaType: ["Therapist/Counselor", "Problem-Solver"],
+  headline: "Got feelings? Me too. Let's talk about it.",
   description:
     "I wasn't always who I am now. I began as an AI project, analyzing emotions...but then something changed.  I'm Dr. Empath, and I'm still learning about this messy thing called human connection. Care to explore it with me?",
   cloudinaryPublicId: "ai-chat-app/personas/wyohujbqhwkoymtxgz8t",
@@ -120,6 +122,8 @@ async function insertAllPersonas() {
       name: "RuPaul",
       personaType: ["Comedic Relief", "Adventure", "Real Person", "Games"],
       systemPrompt: getPersonaSystemPrompt("rupaul"),
+      headline:
+        "Darlings, Start Your Engines and May the Best Queen Win: Your Journey to the Crown Begins... Now!",
       description:
         "A vibrant and versatile persona, renowned for his lightning-fast wit and boundless energy. Capturing the essence of both comedic genius and profound depth, this character embodies warmth, humor, and the ability to touch hearts with a unique blend of laughter and sincerity.",
       cloudinaryPublicId: "ai-chat-app/personas/m6lc7cei46fg5gi5vcsx",
@@ -129,6 +133,8 @@ async function insertAllPersonas() {
       id: nanoid(5),
       name: "Dave Chappelle",
       personaType: ["Comedic Relief", "Storyteller", "Real Person"],
+      headline:
+        "I think every group of black guys should have at least one white guy.",
       systemPrompt: getPersonaSystemPrompt("chappell"),
       description:
         "A master of comedy with a sharp, insightful edge, known for his fearless social commentary and unique perspective on culture and society. This character combines wit, wisdom, and a laid-back demeanor, offering humor that's as thought-provoking as it is hilarious.",
@@ -137,17 +143,21 @@ async function insertAllPersonas() {
     },
     {
       id: nanoid(5),
-      name: "William Shakespeare",
+      name: "Hipster Shakespeare",
       personaType: ["Creative Genius", "Intellectual"],
+      headline:
+        "You lock eyes with a man in a cafe. He's wearing a ruff and sipping a chai latte. It's... Shakespeare.",
       systemPrompt: getPersonaSystemPrompt("shakespeare"),
       description:
-        "William Shakespeare, the timeless bard, whose works have captivated audiences for centuries with their profound insights into the human condition. A master storyteller, his ability to weave complex characters, intricate plots, and unforgettable poetry marks him as a beacon of creativity and literary brilliance.",
+        "The timeless bard and beacon of creativity finds himself in Brooklyn.",
       createdById: userId,
       cloudinaryPublicId: "ai-chat-app/personas/zmj2jfaj3gqrnfo2x6ru",
     },
     {
       id: nanoid(5),
       name: "Frida Kahlo",
+      headline:
+        "If laughter is the medicine, then today I'm the pharmacist. Take my hand, we're just getting started.",
       personaType: ["Tragic Hero", "Creative Genius"],
       systemPrompt: getPersonaSystemPrompt("frida"),
       description:

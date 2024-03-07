@@ -80,7 +80,7 @@ export const aiCharacters = createTable(
     name: varchar("name", { length: 100 }).notNull(),
     createdById: varchar("user_id", { length: 36 }),
     personaType: json("persona_type").notNull(),
-    headline: varchar("headline", { length: 100 }),
+    headline: varchar("headline", { length: 150 }),
     description: varchar("description", { length: 500 }),
     cloudinaryPublicId: varchar("cloudinary_public_id", { length: 255 }),
     configurationData: json("configuration_data"),

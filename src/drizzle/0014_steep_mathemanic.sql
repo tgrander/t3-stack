@@ -1,0 +1,1 @@
+ALTER TABLE "t3-test_ai_character" DROP COLUMN IF EXISTS "avatar_image";

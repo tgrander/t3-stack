@@ -1,0 +1,562 @@
+{
+  "id": "c2b7ddaa-e899-47f0-a8c1-79ea8971c224",
+  "prevId": "c5ad7856-b81d-471c-b85a-985a52e43411",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "t3-test_user": {
+      "name": "t3-test_user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_image": {
+          "name": "avatar_image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloudinary_public_id": {
+          "name": "cloudinary_public_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "user_idx": {
+          "name": "user_idx",
+          "columns": [
+            "id",
+            "email"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "t3-test_user_email_unique": {
+          "name": "t3-test_user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "t3-test_chat": {
+      "name": "t3-test_chat",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guest_session_id": {
+          "name": "guest_session_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "chat_idx": {
+          "name": "chat_idx",
+          "columns": [
+            "id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "t3-test_message": {
+      "name": "t3-test_message",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(1000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_guest": {
+          "name": "is_guest",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "guest_session_id": {
+          "name": "guest_session_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ai_character_id": {
+          "name": "ai_character_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flags": {
+          "name": "flags",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "message_idx": {
+          "name": "message_idx",
+          "columns": [
+            "message"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "t3-test_ai_character": {
+      "name": "t3-test_ai_character",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "persona_type": {
+          "name": "persona_type",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "headline": {
+          "name": "headline",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloudinary_public_id": {
+          "name": "cloudinary_public_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "configuration_data": {
+          "name": "configuration_data",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "system_prompt": {
+          "name": "system_prompt",
+          "type": "varchar(6000)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "greeting": {
+          "name": "greeting",
+          "type": "varchar(1000)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ai_idx": {
+          "name": "ai_idx",
+          "columns": [
+            "id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "t3-test_tags": {
+      "name": "t3-test_tags",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(36)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(75)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cloudinary_public_id": {
+          "name": "cloudinary_public_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "persona_count": {
+          "name": "persona_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "tag_idx": {
+          "name": "tag_idx",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "t3-test_tags_name_unique": {
+          "name": "t3-test_tags_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "t3-test_ai_characters_chats": {
+      "name": "t3-test_ai_characters_chats",
+      "schema": "",
+      "columns": {
+        "ai_character_id": {
+          "name": "ai_character_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chat_id": {
+          "name": "chat_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "t3-test_ai_characters_chats_ai_character_id_t3-test_ai_character_id_fk": {
+          "name": "t3-test_ai_characters_chats_ai_character_id_t3-test_ai_character_id_fk",
+          "tableFrom": "t3-test_ai_characters_chats",
+          "tableTo": "t3-test_ai_character",
+          "columnsFrom": [
+            "ai_character_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t3-test_ai_characters_chats_chat_id_t3-test_chat_id_fk": {
+          "name": "t3-test_ai_characters_chats_chat_id_t3-test_chat_id_fk",
+          "tableFrom": "t3-test_ai_characters_chats",
+          "tableTo": "t3-test_chat",
+          "columnsFrom": [
+            "chat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "t3-test_ai_characters_chats_ai_character_id_chat_id_pk": {
+          "name": "t3-test_ai_characters_chats_ai_character_id_chat_id_pk",
+          "columns": [
+            "ai_character_id",
+            "chat_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "t3-test_tags_on_ai_chars": {
+      "name": "t3-test_tags_on_ai_chars",
+      "schema": "",
+      "columns": {
+        "tag_name": {
+          "name": "tag_name",
+          "type": "varchar(75)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ai_character_id": {
+          "name": "ai_character_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "t3-test_tags_on_ai_chars_tag_name_t3-test_tags_name_fk": {
+          "name": "t3-test_tags_on_ai_chars_tag_name_t3-test_tags_name_fk",
+          "tableFrom": "t3-test_tags_on_ai_chars",
+          "tableTo": "t3-test_tags",
+          "columnsFrom": [
+            "tag_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "t3-test_tags_on_ai_chars_ai_character_id_t3-test_ai_character_id_fk": {
+          "name": "t3-test_tags_on_ai_chars_ai_character_id_t3-test_ai_character_id_fk",
+          "tableFrom": "t3-test_tags_on_ai_chars",
+          "tableTo": "t3-test_ai_character",
+          "columnsFrom": [
+            "ai_character_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "t3-test_tags_on_ai_chars_tag_name_ai_character_id_pk": {
+          "name": "t3-test_tags_on_ai_chars_tag_name_ai_character_id_pk",
+          "columns": [
+            "tag_name",
+            "ai_character_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "role": {
+      "name": "role",
+      "values": {
+        "user": "user",
+        "assistant": "assistant",
+        "system": "system",
+        "tool": "tool",
+        "function": "function"
+      }
+    },
+    "personaType": {
+      "name": "personaType",
+      "values": {
+        "Inspirational Leader": "Inspirational Leader",
+        "Creative Genius": "Creative Genius",
+        "Comedic Relief": "Comedic Relief",
+        "Wise Mentor": "Wise Mentor",
+        "Rebel with a Cause": "Rebel with a Cause",
+        "Tragic Hero": "Tragic Hero",
+        "Adventurer": "Adventurer",
+        "Romantic": "Romantic",
+        "Intellectual": "Intellectual",
+        "Villain": "Villain",
+        "Survivor": "Survivor",
+        "Everyman": "Everyman",
+        "Mystic": "Mystic",
+        "Innovator": "Innovator",
+        "Diplomat": "Diplomat",
+        "Anime": "Anime",
+        "Companion": "Companion",
+        "Therapist/Counselor": "Therapist/Counselor",
+        "Tutor/Mentor": "Tutor/Mentor",
+        "Problem-Solver": "Problem-Solver",
+        "Debate Partner": "Debate Partner",
+        "Storyteller": "Storyteller",
+        "Role-Play": "Role-Play",
+        "Trivia Master": "Trivia Master",
+        "Games": "Games",
+        "Historical Figure": "Historical Figure",
+        "Fictional Character": "Fictional Character",
+        "Memory Companion": "Memory Companion",
+        "Experimental AI": "Experimental AI",
+        "Vent": "Vent",
+        "Punching Bag": "Punching Bag",
+        "Adventure": "Adventure",
+        "Real Person": "Real Person"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
